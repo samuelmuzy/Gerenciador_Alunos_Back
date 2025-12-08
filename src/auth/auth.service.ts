@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import type { SingInDTO, SingUpDTO } from './dtos/authDTO';
 
 
-import { Public } from './SkipAuth.decorator';
+import { Public } from './decorators/SkipAuth.decorator';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { comparePassword, hashPassword } from 'src/common/utils/hash';
 import { JwtService } from '@nestjs/jwt';

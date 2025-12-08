@@ -1,16 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { SingInDTO, SingUpDTO } from './dtos/authDTO';
 import { AuthService } from './auth.service';
-import { Public } from './SkipAuth.decorator';
-import { Roles } from './roles.decorator';
-import { Role } from './enums/RoleEnum';
+import { Public } from './decorators/SkipAuth.decorator';
 
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService:AuthService){
-        
-    }
+    constructor(private authService:AuthService){}
 
     @Public()
     @Post('signup')
@@ -18,7 +14,7 @@ export class AuthController {
         return this.authService.singUp(body);
     }
     
-    @Roles(Role.ADMIN)
+    @Public()
     @Post('singin')
     async singIn(@Body() body:SingInDTO){
         return this.authService.singIn(body);
