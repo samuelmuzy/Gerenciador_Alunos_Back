@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import type { SingInDTO, SingUpDTO } from './dtos/authDTO';
+import { SingInDTO, SingUpDTO } from './dtos/authDTO';
 import { AuthService } from './auth.service';
 import { Public } from './SkipAuth.decorator';
 
