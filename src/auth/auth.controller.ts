@@ -18,6 +18,6 @@ export class AuthController {
 
     @Post('singin')
     async singIn(@Body() body:SingInDTO){
-        console.log(body);
+        return this.authService.singIn(body);
     }
 }

@@ -6,12 +6,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/jwtConstants';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
+import { ConfigModule } from '@nestjs/config';
+console.log(jwtConstants.secret)
 
 @Module({
+  
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d' },
     })],
   controllers: [AuthController],
