@@ -3,7 +3,6 @@ import { SingInDTO, SingUpDTO } from './dtos/authDTO';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/SkipAuth.decorator';
 
-
 @Controller('auth')
 export class AuthController {
     constructor(private authService:AuthService){}

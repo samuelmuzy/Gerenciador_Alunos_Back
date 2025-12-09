@@ -12,6 +12,7 @@ export class SingUpDTO{
     @IsNotEmpty()
     senha:string;
 }
+
 export class SingInDTO{ 
     @IsNotEmpty()
     email:string;

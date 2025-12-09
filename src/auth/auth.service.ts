@@ -1,8 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import type { SingInDTO, SingUpDTO } from './dtos/authDTO';
-
-
-import { Public } from './decorators/SkipAuth.decorator';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { comparePassword, hashPassword } from 'src/common/utils/hash';
 import { JwtService } from '@nestjs/jwt';
@@ -47,7 +44,7 @@ export class AuthService {
  
         const payload = {nome:verifyUserExist.nome,email:data.email,role:verifyUserExist.role}
 
-        const accessToken = await this.jwtService.signAsync({payload})
+        const accessToken = await this.jwtService.signAsync(payload)
         return {token: accessToken};
     }
 }
