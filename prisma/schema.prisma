@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output      = "../src/generated/prisma"
-  moduleFormat    = "cjs"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -16,13 +16,13 @@ datasource db {
 
 // 1. Entidade: usuarios
 model Usuario {
-  id        String      @id @default(uuid())
-  nome      String
-  email     String      @unique
-  senha     String
-  role      String      @default("STUDENT")
-  cpf       String?     @unique 
-  
+  id    String  @id @default(uuid())
+  nome  String
+  email String  @unique
+  senha String
+  role  String  @default("STUDENT")
+  cpf   String? @unique
+
   aluno     Aluno?
   professor Professor?
 
@@ -31,57 +31,60 @@ model Usuario {
 
 // 2. Entidade: alunos
 model Aluno {
-  id          String  @id @default(uuid())
-  matricula   String  @unique
-  
+  id        String @id @default(uuid())
+  matricula String @unique
+
   // Relacionamentos
-  id_usuario  String  @unique
-  usuario     Usuario @relation(fields: [id_usuario], references: [id])
-  
-  id_turma    String
-  turma       Turma   @relation(fields: [id_turma], references: [id])
+  id_usuario String  @unique
+  usuario    Usuario @relation(fields: [id_usuario], references: [id])
+
+  id_turma String
+  turma    Turma  @relation(fields: [id_turma], references: [id])
+
+  alunoTrabalhos AlunoTrabalho[]
+  alunosProvas   AlunosProvas[]
 
   @@map("alunos")
 }
 
 // 3. Entidade: professores
 model Professor {
-  id          String  @id @default(uuid())
-  tipo        String
-  graduacao   String
-  
+  id        String @id @default(uuid())
+  tipo      String
+  graduacao String
+
   // Relacionamentos
-  id_usuario  String  @unique
-  usuario     Usuario @relation(fields: [id_usuario], references: [id])
-  
-  turmas      ProfessoresTurmas[]
-  materias    ProfessoresMateria[]
+  id_usuario String  @unique
+  usuario    Usuario @relation(fields: [id_usuario], references: [id])
+
+  turmas   ProfessoresTurmas[]
+  materias ProfessoresMateria[]
 
   @@map("professores")
 }
 
 // 4. Entidade: periodo
 model Periodo {
-  id          String  @id @default(uuid())
-  nome        String
-  descricao   String
-  
+  id        String @id @default(uuid())
+  nome      String
+  descricao String
+
   // Relacionamentos
-  turmas      Turma[]
-  materias    Materia[]
+  turmas   Turma[]
+  materias Materia[]
 
   @@map("periodo")
 }
 
 // 5. Entidade: Turmas
 model Turma {
-  id          String  @id @default(uuid())
-  nome        String
-  
+  id   String @id @default(uuid())
+  nome String
+
   // Relacionamentos
-  id_periodo  String
-  periodo     Periodo @relation(fields: [id_periodo], references: [id])
-  
+  id_periodo String
+  periodo    Periodo @relation(fields: [id_periodo], references: [id])
+
   alunos      Aluno[]
   professores ProfessoresTurmas[]
 
@@ -92,9 +95,9 @@ model Turma {
 model ProfessoresTurmas {
   professores_id String
   professor      Professor @relation(fields: [professores_id], references: [id])
-  
-  turmas_id      String
-  turma          Turma     @relation(fields: [turmas_id], references: [id])
+
+  turmas_id String
+  turma     Turma  @relation(fields: [turmas_id], references: [id])
 
   @@id([professores_id, turmas_id])
   @@map("professores_Turmas")
@@ -102,14 +105,14 @@ model ProfessoresTurmas {
 
 // 7. Entidade: materia
 model Materia {
-  id          String  @id @default(uuid())
-  nome        String
-  descricao   String
-  
+  id        String @id @default(uuid())
+  nome      String
+  descricao String
+
   // Relacionamentos
-  id_periodo  String
-  periodo     Periodo @relation(fields: [id_periodo], references: [id])
-  
+  id_periodo String
+  periodo    Periodo @relation(fields: [id_periodo], references: [id])
+
   etapas      Etapa[]
   professores ProfessoresMateria[]
 
@@ -120,9 +123,9 @@ model Materia {
 model ProfessoresMateria {
   professores_id String
   professor      Professor @relation(fields: [professores_id], references: [id])
-  
-  materia_id     String
-  materia        Materia   @relation(fields: [materia_id], references: [id])
+
+  materia_id String
+  materia    Materia @relation(fields: [materia_id], references: [id])
 
   @@id([professores_id, materia_id])
   @@map("professores_materia")
@@ -130,49 +133,82 @@ model ProfessoresMateria {
 
 // 9. Entidade: etapa
 model Etapa {
-  id              String    @id @default(uuid())
-  data_inicio     DateTime  @map("data_Incicio")
-  data_fim        DateTime  @map("data_fim")
-  nota_etapa      Float     @map("nota_etapa")
-  
+  id          String   @id @default(uuid())
+  data_inicio DateTime @map("data_Incicio")
+  data_fim    DateTime @map("data_fim")
+  nota_etapa  Float    @map("nota_etapa")
+
   // Relacionamentos
-  id_materia      String
-  materia         Materia   @relation(fields: [id_materia], references: [id])
-  
-  provas          Prova[]
-  trabalhos       Trabalho[]
+  id_materia String
+  materia    Materia @relation(fields: [id_materia], references: [id])
+
+  provas    Prova[]
+  trabalhos Trabalho[]
 
   @@map("etapa")
 }
 
 // 10. Entidade: provas
 model Prova {
-  id          String  @id @default(uuid())
-  nome        String
-  nota        Float
-  valor       Float
-  
+  id    String @id @default(uuid())
+  nome  String
+  valor Float
+
   // Relacionamentos
-  id_etapa    String  @map("id_etapa")
-  etapa       Etapa   @relation(fields: [id_etapa], references: [id])
+  id_etapa String @map("id_etapa")
+  etapa    Etapa  @relation(fields: [id_etapa], references: [id])
+
+  alunosProvas AlunosProvas[]
 
   @@map("provas")
 }
 
 // 11. Entidade: trabalho
 model Trabalho {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   nome        String
-  url         String
-  nota        Float
   tipo        String
   valor       Float // O diagrama diz 'valor text', então mantemos String
-  data_inicio DateTime  @map("data_Inicio")
-  data_fim    DateTime  @map("data_fim")
-  
+  data_inicio DateTime @map("data_Inicio")
+  data_fim    DateTime @map("data_fim")
+
   // Relacionamentos
-  id_etapa    String  @map("id_etapa")
-  etapa       Etapa   @relation(fields: [id_etapa], references: [id])
+  id_etapa String @map("id_etapa")
+  etapa    Etapa  @relation(fields: [id_etapa], references: [id])
+
+  alunoTrabalhos AlunoTrabalho[]
 
   @@map("trabalho")
+}
+
+// 12. Entidade: AlunoTrabalho (Tabela de ligação N:M)
+model AlunoTrabalho {
+  alunos_id String
+  alunos    Aluno  @relation(fields: [alunos_id], references: [id])
+
+  trabalho_id String
+  trabalho    Trabalho @relation(fields: [trabalho_id], references: [id])
+
+  public_id String
+  nota       Float
+  data_envio DateTime @map("data_envio")
+  url        String
+
+  @@id([alunos_id, trabalho_id])
+  @@map("aluno_trabalho")
+}
+
+// 13. Entidade: AlunosProvas (Tabela de ligação N:M)
+model AlunosProvas {
+  alunos_id String
+  alunos    Aluno  @relation(fields: [alunos_id], references: [id])
+
+  provas_id String
+  provas    Prova  @relation(fields: [provas_id], references: [id])
+
+  nota Float
+  data DateTime @map("data")
+
+  @@id([alunos_id, provas_id])
+  @@map("alunos_provas")
 }

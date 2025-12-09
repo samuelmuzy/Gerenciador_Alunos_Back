@@ -92,3 +92,13 @@ export type Prova = Prisma.ProvaModel
  * 
  */
 export type Trabalho = Prisma.TrabalhoModel
+/**
+ * Model AlunoTrabalho
+ * 
+ */
+export type AlunoTrabalho = Prisma.AlunoTrabalhoModel
+/**
+ * Model AlunosProvas
+ * 
+ */
+export type AlunosProvas = Prisma.AlunosProvasModel

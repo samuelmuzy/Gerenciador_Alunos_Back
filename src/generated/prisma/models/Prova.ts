@@ -27,19 +27,16 @@ export type AggregateProva = {
 }
 
 export type ProvaAvgAggregateOutputType = {
-  nota: number | null
   valor: number | null
 }
 
 export type ProvaSumAggregateOutputType = {
-  nota: number | null
   valor: number | null
 }
 
 export type ProvaMinAggregateOutputType = {
   id: string | null
   nome: string | null
-  nota: number | null
   valor: number | null
   id_etapa: string | null
 }
@@ -47,7 +44,6 @@ export type ProvaMinAggregateOutputType = {
 export type ProvaMaxAggregateOutputType = {
   id: string | null
   nome: string | null
-  nota: number | null
   valor: number | null
   id_etapa: string | null
 }
@@ -55,7 +51,6 @@ export type ProvaMaxAggregateOutputType = {
 export type ProvaCountAggregateOutputType = {
   id: number
   nome: number
-  nota: number
   valor: number
   id_etapa: number
   _all: number
@@ -63,19 +58,16 @@ export type ProvaCountAggregateOutputType = {
 
 
 export type ProvaAvgAggregateInputType = {
-  nota?: true
   valor?: true
 }
 
 export type ProvaSumAggregateInputType = {
-  nota?: true
   valor?: true
 }
 
 export type ProvaMinAggregateInputType = {
   id?: true
   nome?: true
-  nota?: true
   valor?: true
   id_etapa?: true
 }
@@ -83,7 +75,6 @@ export type ProvaMinAggregateInputType = {
 export type ProvaMaxAggregateInputType = {
   id?: true
   nome?: true
-  nota?: true
   valor?: true
   id_etapa?: true
 }
@@ -91,7 +82,6 @@ export type ProvaMaxAggregateInputType = {
 export type ProvaCountAggregateInputType = {
   id?: true
   nome?: true
-  nota?: true
   valor?: true
   id_etapa?: true
   _all?: true
@@ -186,7 +176,6 @@ export type ProvaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type ProvaGroupByOutputType = {
   id: string
   nome: string
-  nota: number
   valor: number
   id_etapa: string
   _count: ProvaCountAggregateOutputType | null
@@ -217,19 +206,19 @@ export type ProvaWhereInput = {
   NOT?: Prisma.ProvaWhereInput | Prisma.ProvaWhereInput[]
   id?: Prisma.StringFilter<"Prova"> | string
   nome?: Prisma.StringFilter<"Prova"> | string
-  nota?: Prisma.FloatFilter<"Prova"> | number
   valor?: Prisma.FloatFilter<"Prova"> | number
   id_etapa?: Prisma.StringFilter<"Prova"> | string
   etapa?: Prisma.XOR<Prisma.EtapaScalarRelationFilter, Prisma.EtapaWhereInput>
+  alunosProvas?: Prisma.AlunosProvasListRelationFilter
 }
 
 export type ProvaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   id_etapa?: Prisma.SortOrder
   etapa?: Prisma.EtapaOrderByWithRelationInput
+  alunosProvas?: Prisma.AlunosProvasOrderByRelationAggregateInput
 }
 
 export type ProvaWhereUniqueInput = Prisma.AtLeast<{
@@ -238,16 +227,15 @@ export type ProvaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProvaWhereInput[]
   NOT?: Prisma.ProvaWhereInput | Prisma.ProvaWhereInput[]
   nome?: Prisma.StringFilter<"Prova"> | string
-  nota?: Prisma.FloatFilter<"Prova"> | number
   valor?: Prisma.FloatFilter<"Prova"> | number
   id_etapa?: Prisma.StringFilter<"Prova"> | string
   etapa?: Prisma.XOR<Prisma.EtapaScalarRelationFilter, Prisma.EtapaWhereInput>
+  alunosProvas?: Prisma.AlunosProvasListRelationFilter
 }, "id">
 
 export type ProvaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   id_etapa?: Prisma.SortOrder
   _count?: Prisma.ProvaCountOrderByAggregateInput
@@ -263,7 +251,6 @@ export type ProvaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProvaScalarWhereWithAggregatesInput | Prisma.ProvaScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Prova"> | string
   nome?: Prisma.StringWithAggregatesFilter<"Prova"> | string
-  nota?: Prisma.FloatWithAggregatesFilter<"Prova"> | number
   valor?: Prisma.FloatWithAggregatesFilter<"Prova"> | number
   id_etapa?: Prisma.StringWithAggregatesFilter<"Prova"> | string
 }
@@ -271,39 +258,38 @@ export type ProvaScalarWhereWithAggregatesInput = {
 export type ProvaCreateInput = {
   id?: string
   nome: string
-  nota: number
   valor: number
   etapa: Prisma.EtapaCreateNestedOneWithoutProvasInput
+  alunosProvas?: Prisma.AlunosProvasCreateNestedManyWithoutProvasInput
 }
 
 export type ProvaUncheckedCreateInput = {
   id?: string
   nome: string
-  nota: number
   valor: number
   id_etapa: string
+  alunosProvas?: Prisma.AlunosProvasUncheckedCreateNestedManyWithoutProvasInput
 }
 
 export type ProvaUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   etapa?: Prisma.EtapaUpdateOneRequiredWithoutProvasNestedInput
+  alunosProvas?: Prisma.AlunosProvasUpdateManyWithoutProvasNestedInput
 }
 
 export type ProvaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   id_etapa?: Prisma.StringFieldUpdateOperationsInput | string
+  alunosProvas?: Prisma.AlunosProvasUncheckedUpdateManyWithoutProvasNestedInput
 }
 
 export type ProvaCreateManyInput = {
   id?: string
   nome: string
-  nota: number
   valor: number
   id_etapa: string
 }
@@ -311,14 +297,12 @@ export type ProvaCreateManyInput = {
 export type ProvaUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type ProvaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   id_etapa?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -336,20 +320,17 @@ export type ProvaOrderByRelationAggregateInput = {
 export type ProvaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   id_etapa?: Prisma.SortOrder
 }
 
 export type ProvaAvgOrderByAggregateInput = {
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
 }
 
 export type ProvaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   id_etapa?: Prisma.SortOrder
 }
@@ -357,14 +338,17 @@ export type ProvaMaxOrderByAggregateInput = {
 export type ProvaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   id_etapa?: Prisma.SortOrder
 }
 
 export type ProvaSumOrderByAggregateInput = {
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
+}
+
+export type ProvaScalarRelationFilter = {
+  is?: Prisma.ProvaWhereInput
+  isNot?: Prisma.ProvaWhereInput
 }
 
 export type ProvaCreateNestedManyWithoutEtapaInput = {
@@ -409,18 +393,32 @@ export type ProvaUncheckedUpdateManyWithoutEtapaNestedInput = {
   deleteMany?: Prisma.ProvaScalarWhereInput | Prisma.ProvaScalarWhereInput[]
 }
 
+export type ProvaCreateNestedOneWithoutAlunosProvasInput = {
+  create?: Prisma.XOR<Prisma.ProvaCreateWithoutAlunosProvasInput, Prisma.ProvaUncheckedCreateWithoutAlunosProvasInput>
+  connectOrCreate?: Prisma.ProvaCreateOrConnectWithoutAlunosProvasInput
+  connect?: Prisma.ProvaWhereUniqueInput
+}
+
+export type ProvaUpdateOneRequiredWithoutAlunosProvasNestedInput = {
+  create?: Prisma.XOR<Prisma.ProvaCreateWithoutAlunosProvasInput, Prisma.ProvaUncheckedCreateWithoutAlunosProvasInput>
+  connectOrCreate?: Prisma.ProvaCreateOrConnectWithoutAlunosProvasInput
+  upsert?: Prisma.ProvaUpsertWithoutAlunosProvasInput
+  connect?: Prisma.ProvaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProvaUpdateToOneWithWhereWithoutAlunosProvasInput, Prisma.ProvaUpdateWithoutAlunosProvasInput>, Prisma.ProvaUncheckedUpdateWithoutAlunosProvasInput>
+}
+
 export type ProvaCreateWithoutEtapaInput = {
   id?: string
   nome: string
-  nota: number
   valor: number
+  alunosProvas?: Prisma.AlunosProvasCreateNestedManyWithoutProvasInput
 }
 
 export type ProvaUncheckedCreateWithoutEtapaInput = {
   id?: string
   nome: string
-  nota: number
   valor: number
+  alunosProvas?: Prisma.AlunosProvasUncheckedCreateNestedManyWithoutProvasInput
 }
 
 export type ProvaCreateOrConnectWithoutEtapaInput = {
@@ -455,54 +453,124 @@ export type ProvaScalarWhereInput = {
   NOT?: Prisma.ProvaScalarWhereInput | Prisma.ProvaScalarWhereInput[]
   id?: Prisma.StringFilter<"Prova"> | string
   nome?: Prisma.StringFilter<"Prova"> | string
-  nota?: Prisma.FloatFilter<"Prova"> | number
   valor?: Prisma.FloatFilter<"Prova"> | number
   id_etapa?: Prisma.StringFilter<"Prova"> | string
+}
+
+export type ProvaCreateWithoutAlunosProvasInput = {
+  id?: string
+  nome: string
+  valor: number
+  etapa: Prisma.EtapaCreateNestedOneWithoutProvasInput
+}
+
+export type ProvaUncheckedCreateWithoutAlunosProvasInput = {
+  id?: string
+  nome: string
+  valor: number
+  id_etapa: string
+}
+
+export type ProvaCreateOrConnectWithoutAlunosProvasInput = {
+  where: Prisma.ProvaWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProvaCreateWithoutAlunosProvasInput, Prisma.ProvaUncheckedCreateWithoutAlunosProvasInput>
+}
+
+export type ProvaUpsertWithoutAlunosProvasInput = {
+  update: Prisma.XOR<Prisma.ProvaUpdateWithoutAlunosProvasInput, Prisma.ProvaUncheckedUpdateWithoutAlunosProvasInput>
+  create: Prisma.XOR<Prisma.ProvaCreateWithoutAlunosProvasInput, Prisma.ProvaUncheckedCreateWithoutAlunosProvasInput>
+  where?: Prisma.ProvaWhereInput
+}
+
+export type ProvaUpdateToOneWithWhereWithoutAlunosProvasInput = {
+  where?: Prisma.ProvaWhereInput
+  data: Prisma.XOR<Prisma.ProvaUpdateWithoutAlunosProvasInput, Prisma.ProvaUncheckedUpdateWithoutAlunosProvasInput>
+}
+
+export type ProvaUpdateWithoutAlunosProvasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  valor?: Prisma.FloatFieldUpdateOperationsInput | number
+  etapa?: Prisma.EtapaUpdateOneRequiredWithoutProvasNestedInput
+}
+
+export type ProvaUncheckedUpdateWithoutAlunosProvasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  valor?: Prisma.FloatFieldUpdateOperationsInput | number
+  id_etapa?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProvaCreateManyEtapaInput = {
   id?: string
   nome: string
-  nota: number
   valor: number
 }
 
 export type ProvaUpdateWithoutEtapaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
+  alunosProvas?: Prisma.AlunosProvasUpdateManyWithoutProvasNestedInput
 }
 
 export type ProvaUncheckedUpdateWithoutEtapaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
+  alunosProvas?: Prisma.AlunosProvasUncheckedUpdateManyWithoutProvasNestedInput
 }
 
 export type ProvaUncheckedUpdateManyWithoutEtapaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
+
+/**
+ * Count Type ProvaCountOutputType
+ */
+
+export type ProvaCountOutputType = {
+  alunosProvas: number
+}
+
+export type ProvaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  alunosProvas?: boolean | ProvaCountOutputTypeCountAlunosProvasArgs
+}
+
+/**
+ * ProvaCountOutputType without action
+ */
+export type ProvaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProvaCountOutputType
+   */
+  select?: Prisma.ProvaCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProvaCountOutputType without action
+ */
+export type ProvaCountOutputTypeCountAlunosProvasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlunosProvasWhereInput
+}
 
 
 export type ProvaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nome?: boolean
-  nota?: boolean
   valor?: boolean
   id_etapa?: boolean
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
+  alunosProvas?: boolean | Prisma.Prova$alunosProvasArgs<ExtArgs>
+  _count?: boolean | Prisma.ProvaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["prova"]>
 
 export type ProvaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nome?: boolean
-  nota?: boolean
   valor?: boolean
   id_etapa?: boolean
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
@@ -511,7 +579,6 @@ export type ProvaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type ProvaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nome?: boolean
-  nota?: boolean
   valor?: boolean
   id_etapa?: boolean
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
@@ -520,14 +587,15 @@ export type ProvaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type ProvaSelectScalar = {
   id?: boolean
   nome?: boolean
-  nota?: boolean
   valor?: boolean
   id_etapa?: boolean
 }
 
-export type ProvaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "nota" | "valor" | "id_etapa", ExtArgs["result"]["prova"]>
+export type ProvaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "valor" | "id_etapa", ExtArgs["result"]["prova"]>
 export type ProvaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
+  alunosProvas?: boolean | Prisma.Prova$alunosProvasArgs<ExtArgs>
+  _count?: boolean | Prisma.ProvaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProvaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
@@ -540,11 +608,11 @@ export type $ProvaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Prova"
   objects: {
     etapa: Prisma.$EtapaPayload<ExtArgs>
+    alunosProvas: Prisma.$AlunosProvasPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     nome: string
-    nota: number
     valor: number
     id_etapa: string
   }, ExtArgs["result"]["prova"]>
@@ -942,6 +1010,7 @@ readonly fields: ProvaFieldRefs;
 export interface Prisma__ProvaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   etapa<T extends Prisma.EtapaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EtapaDefaultArgs<ExtArgs>>): Prisma.Prisma__EtapaClient<runtime.Types.Result.GetResult<Prisma.$EtapaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  alunosProvas<T extends Prisma.Prova$alunosProvasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Prova$alunosProvasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlunosProvasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -973,7 +1042,6 @@ export interface Prisma__ProvaClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface ProvaFieldRefs {
   readonly id: Prisma.FieldRef<"Prova", 'String'>
   readonly nome: Prisma.FieldRef<"Prova", 'String'>
-  readonly nota: Prisma.FieldRef<"Prova", 'Float'>
   readonly valor: Prisma.FieldRef<"Prova", 'Float'>
   readonly id_etapa: Prisma.FieldRef<"Prova", 'String'>
 }
@@ -1369,6 +1437,30 @@ export type ProvaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Prova to delete.
    */
   limit?: number
+}
+
+/**
+ * Prova.alunosProvas
+ */
+export type Prova$alunosProvasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlunosProvas
+   */
+  select?: Prisma.AlunosProvasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlunosProvas
+   */
+  omit?: Prisma.AlunosProvasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlunosProvasInclude<ExtArgs> | null
+  where?: Prisma.AlunosProvasWhereInput
+  orderBy?: Prisma.AlunosProvasOrderByWithRelationInput | Prisma.AlunosProvasOrderByWithRelationInput[]
+  cursor?: Prisma.AlunosProvasWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlunosProvasScalarFieldEnum | Prisma.AlunosProvasScalarFieldEnum[]
 }
 
 /**

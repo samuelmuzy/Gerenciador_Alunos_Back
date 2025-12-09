@@ -176,6 +176,8 @@ export type AlunoWhereInput = {
   id_turma?: Prisma.StringFilter<"Aluno"> | string
   usuario?: Prisma.XOR<Prisma.UsuarioScalarRelationFilter, Prisma.UsuarioWhereInput>
   turma?: Prisma.XOR<Prisma.TurmaScalarRelationFilter, Prisma.TurmaWhereInput>
+  alunoTrabalhos?: Prisma.AlunoTrabalhoListRelationFilter
+  alunosProvas?: Prisma.AlunosProvasListRelationFilter
 }
 
 export type AlunoOrderByWithRelationInput = {
@@ -185,6 +187,8 @@ export type AlunoOrderByWithRelationInput = {
   id_turma?: Prisma.SortOrder
   usuario?: Prisma.UsuarioOrderByWithRelationInput
   turma?: Prisma.TurmaOrderByWithRelationInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoOrderByRelationAggregateInput
+  alunosProvas?: Prisma.AlunosProvasOrderByRelationAggregateInput
 }
 
 export type AlunoWhereUniqueInput = Prisma.AtLeast<{
@@ -197,6 +201,8 @@ export type AlunoWhereUniqueInput = Prisma.AtLeast<{
   id_turma?: Prisma.StringFilter<"Aluno"> | string
   usuario?: Prisma.XOR<Prisma.UsuarioScalarRelationFilter, Prisma.UsuarioWhereInput>
   turma?: Prisma.XOR<Prisma.TurmaScalarRelationFilter, Prisma.TurmaWhereInput>
+  alunoTrabalhos?: Prisma.AlunoTrabalhoListRelationFilter
+  alunosProvas?: Prisma.AlunosProvasListRelationFilter
 }, "id" | "matricula" | "id_usuario">
 
 export type AlunoOrderByWithAggregationInput = {
@@ -224,6 +230,8 @@ export type AlunoCreateInput = {
   matricula: string
   usuario: Prisma.UsuarioCreateNestedOneWithoutAlunoInput
   turma: Prisma.TurmaCreateNestedOneWithoutAlunosInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoCreateNestedManyWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasCreateNestedManyWithoutAlunosInput
 }
 
 export type AlunoUncheckedCreateInput = {
@@ -231,6 +239,8 @@ export type AlunoUncheckedCreateInput = {
   matricula: string
   id_usuario: string
   id_turma: string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedCreateNestedManyWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasUncheckedCreateNestedManyWithoutAlunosInput
 }
 
 export type AlunoUpdateInput = {
@@ -238,6 +248,8 @@ export type AlunoUpdateInput = {
   matricula?: Prisma.StringFieldUpdateOperationsInput | string
   usuario?: Prisma.UsuarioUpdateOneRequiredWithoutAlunoNestedInput
   turma?: Prisma.TurmaUpdateOneRequiredWithoutAlunosNestedInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUpdateManyWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUpdateManyWithoutAlunosNestedInput
 }
 
 export type AlunoUncheckedUpdateInput = {
@@ -245,6 +257,8 @@ export type AlunoUncheckedUpdateInput = {
   matricula?: Prisma.StringFieldUpdateOperationsInput | string
   id_usuario?: Prisma.StringFieldUpdateOperationsInput | string
   id_turma?: Prisma.StringFieldUpdateOperationsInput | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedUpdateManyWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUncheckedUpdateManyWithoutAlunosNestedInput
 }
 
 export type AlunoCreateManyInput = {
@@ -300,6 +314,11 @@ export type AlunoListRelationFilter = {
 
 export type AlunoOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type AlunoScalarRelationFilter = {
+  is?: Prisma.AlunoWhereInput
+  isNot?: Prisma.AlunoWhereInput
 }
 
 export type AlunoCreateNestedOneWithoutUsuarioInput = {
@@ -376,16 +395,48 @@ export type AlunoUncheckedUpdateManyWithoutTurmaNestedInput = {
   deleteMany?: Prisma.AlunoScalarWhereInput | Prisma.AlunoScalarWhereInput[]
 }
 
+export type AlunoCreateNestedOneWithoutAlunoTrabalhosInput = {
+  create?: Prisma.XOR<Prisma.AlunoCreateWithoutAlunoTrabalhosInput, Prisma.AlunoUncheckedCreateWithoutAlunoTrabalhosInput>
+  connectOrCreate?: Prisma.AlunoCreateOrConnectWithoutAlunoTrabalhosInput
+  connect?: Prisma.AlunoWhereUniqueInput
+}
+
+export type AlunoUpdateOneRequiredWithoutAlunoTrabalhosNestedInput = {
+  create?: Prisma.XOR<Prisma.AlunoCreateWithoutAlunoTrabalhosInput, Prisma.AlunoUncheckedCreateWithoutAlunoTrabalhosInput>
+  connectOrCreate?: Prisma.AlunoCreateOrConnectWithoutAlunoTrabalhosInput
+  upsert?: Prisma.AlunoUpsertWithoutAlunoTrabalhosInput
+  connect?: Prisma.AlunoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AlunoUpdateToOneWithWhereWithoutAlunoTrabalhosInput, Prisma.AlunoUpdateWithoutAlunoTrabalhosInput>, Prisma.AlunoUncheckedUpdateWithoutAlunoTrabalhosInput>
+}
+
+export type AlunoCreateNestedOneWithoutAlunosProvasInput = {
+  create?: Prisma.XOR<Prisma.AlunoCreateWithoutAlunosProvasInput, Prisma.AlunoUncheckedCreateWithoutAlunosProvasInput>
+  connectOrCreate?: Prisma.AlunoCreateOrConnectWithoutAlunosProvasInput
+  connect?: Prisma.AlunoWhereUniqueInput
+}
+
+export type AlunoUpdateOneRequiredWithoutAlunosProvasNestedInput = {
+  create?: Prisma.XOR<Prisma.AlunoCreateWithoutAlunosProvasInput, Prisma.AlunoUncheckedCreateWithoutAlunosProvasInput>
+  connectOrCreate?: Prisma.AlunoCreateOrConnectWithoutAlunosProvasInput
+  upsert?: Prisma.AlunoUpsertWithoutAlunosProvasInput
+  connect?: Prisma.AlunoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AlunoUpdateToOneWithWhereWithoutAlunosProvasInput, Prisma.AlunoUpdateWithoutAlunosProvasInput>, Prisma.AlunoUncheckedUpdateWithoutAlunosProvasInput>
+}
+
 export type AlunoCreateWithoutUsuarioInput = {
   id?: string
   matricula: string
   turma: Prisma.TurmaCreateNestedOneWithoutAlunosInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoCreateNestedManyWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasCreateNestedManyWithoutAlunosInput
 }
 
 export type AlunoUncheckedCreateWithoutUsuarioInput = {
   id?: string
   matricula: string
   id_turma: string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedCreateNestedManyWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasUncheckedCreateNestedManyWithoutAlunosInput
 }
 
 export type AlunoCreateOrConnectWithoutUsuarioInput = {
@@ -408,24 +459,32 @@ export type AlunoUpdateWithoutUsuarioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   matricula?: Prisma.StringFieldUpdateOperationsInput | string
   turma?: Prisma.TurmaUpdateOneRequiredWithoutAlunosNestedInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUpdateManyWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUpdateManyWithoutAlunosNestedInput
 }
 
 export type AlunoUncheckedUpdateWithoutUsuarioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   matricula?: Prisma.StringFieldUpdateOperationsInput | string
   id_turma?: Prisma.StringFieldUpdateOperationsInput | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedUpdateManyWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUncheckedUpdateManyWithoutAlunosNestedInput
 }
 
 export type AlunoCreateWithoutTurmaInput = {
   id?: string
   matricula: string
   usuario: Prisma.UsuarioCreateNestedOneWithoutAlunoInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoCreateNestedManyWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasCreateNestedManyWithoutAlunosInput
 }
 
 export type AlunoUncheckedCreateWithoutTurmaInput = {
   id?: string
   matricula: string
   id_usuario: string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedCreateNestedManyWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasUncheckedCreateNestedManyWithoutAlunosInput
 }
 
 export type AlunoCreateOrConnectWithoutTurmaInput = {
@@ -464,6 +523,102 @@ export type AlunoScalarWhereInput = {
   id_turma?: Prisma.StringFilter<"Aluno"> | string
 }
 
+export type AlunoCreateWithoutAlunoTrabalhosInput = {
+  id?: string
+  matricula: string
+  usuario: Prisma.UsuarioCreateNestedOneWithoutAlunoInput
+  turma: Prisma.TurmaCreateNestedOneWithoutAlunosInput
+  alunosProvas?: Prisma.AlunosProvasCreateNestedManyWithoutAlunosInput
+}
+
+export type AlunoUncheckedCreateWithoutAlunoTrabalhosInput = {
+  id?: string
+  matricula: string
+  id_usuario: string
+  id_turma: string
+  alunosProvas?: Prisma.AlunosProvasUncheckedCreateNestedManyWithoutAlunosInput
+}
+
+export type AlunoCreateOrConnectWithoutAlunoTrabalhosInput = {
+  where: Prisma.AlunoWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlunoCreateWithoutAlunoTrabalhosInput, Prisma.AlunoUncheckedCreateWithoutAlunoTrabalhosInput>
+}
+
+export type AlunoUpsertWithoutAlunoTrabalhosInput = {
+  update: Prisma.XOR<Prisma.AlunoUpdateWithoutAlunoTrabalhosInput, Prisma.AlunoUncheckedUpdateWithoutAlunoTrabalhosInput>
+  create: Prisma.XOR<Prisma.AlunoCreateWithoutAlunoTrabalhosInput, Prisma.AlunoUncheckedCreateWithoutAlunoTrabalhosInput>
+  where?: Prisma.AlunoWhereInput
+}
+
+export type AlunoUpdateToOneWithWhereWithoutAlunoTrabalhosInput = {
+  where?: Prisma.AlunoWhereInput
+  data: Prisma.XOR<Prisma.AlunoUpdateWithoutAlunoTrabalhosInput, Prisma.AlunoUncheckedUpdateWithoutAlunoTrabalhosInput>
+}
+
+export type AlunoUpdateWithoutAlunoTrabalhosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  matricula?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.UsuarioUpdateOneRequiredWithoutAlunoNestedInput
+  turma?: Prisma.TurmaUpdateOneRequiredWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUpdateManyWithoutAlunosNestedInput
+}
+
+export type AlunoUncheckedUpdateWithoutAlunoTrabalhosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  matricula?: Prisma.StringFieldUpdateOperationsInput | string
+  id_usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  id_turma?: Prisma.StringFieldUpdateOperationsInput | string
+  alunosProvas?: Prisma.AlunosProvasUncheckedUpdateManyWithoutAlunosNestedInput
+}
+
+export type AlunoCreateWithoutAlunosProvasInput = {
+  id?: string
+  matricula: string
+  usuario: Prisma.UsuarioCreateNestedOneWithoutAlunoInput
+  turma: Prisma.TurmaCreateNestedOneWithoutAlunosInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoCreateNestedManyWithoutAlunosInput
+}
+
+export type AlunoUncheckedCreateWithoutAlunosProvasInput = {
+  id?: string
+  matricula: string
+  id_usuario: string
+  id_turma: string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedCreateNestedManyWithoutAlunosInput
+}
+
+export type AlunoCreateOrConnectWithoutAlunosProvasInput = {
+  where: Prisma.AlunoWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlunoCreateWithoutAlunosProvasInput, Prisma.AlunoUncheckedCreateWithoutAlunosProvasInput>
+}
+
+export type AlunoUpsertWithoutAlunosProvasInput = {
+  update: Prisma.XOR<Prisma.AlunoUpdateWithoutAlunosProvasInput, Prisma.AlunoUncheckedUpdateWithoutAlunosProvasInput>
+  create: Prisma.XOR<Prisma.AlunoCreateWithoutAlunosProvasInput, Prisma.AlunoUncheckedCreateWithoutAlunosProvasInput>
+  where?: Prisma.AlunoWhereInput
+}
+
+export type AlunoUpdateToOneWithWhereWithoutAlunosProvasInput = {
+  where?: Prisma.AlunoWhereInput
+  data: Prisma.XOR<Prisma.AlunoUpdateWithoutAlunosProvasInput, Prisma.AlunoUncheckedUpdateWithoutAlunosProvasInput>
+}
+
+export type AlunoUpdateWithoutAlunosProvasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  matricula?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.UsuarioUpdateOneRequiredWithoutAlunoNestedInput
+  turma?: Prisma.TurmaUpdateOneRequiredWithoutAlunosNestedInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUpdateManyWithoutAlunosNestedInput
+}
+
+export type AlunoUncheckedUpdateWithoutAlunosProvasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  matricula?: Prisma.StringFieldUpdateOperationsInput | string
+  id_usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  id_turma?: Prisma.StringFieldUpdateOperationsInput | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedUpdateManyWithoutAlunosNestedInput
+}
+
 export type AlunoCreateManyTurmaInput = {
   id?: string
   matricula: string
@@ -474,12 +629,16 @@ export type AlunoUpdateWithoutTurmaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   matricula?: Prisma.StringFieldUpdateOperationsInput | string
   usuario?: Prisma.UsuarioUpdateOneRequiredWithoutAlunoNestedInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUpdateManyWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUpdateManyWithoutAlunosNestedInput
 }
 
 export type AlunoUncheckedUpdateWithoutTurmaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   matricula?: Prisma.StringFieldUpdateOperationsInput | string
   id_usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedUpdateManyWithoutAlunosNestedInput
+  alunosProvas?: Prisma.AlunosProvasUncheckedUpdateManyWithoutAlunosNestedInput
 }
 
 export type AlunoUncheckedUpdateManyWithoutTurmaInput = {
@@ -489,6 +648,44 @@ export type AlunoUncheckedUpdateManyWithoutTurmaInput = {
 }
 
 
+/**
+ * Count Type AlunoCountOutputType
+ */
+
+export type AlunoCountOutputType = {
+  alunoTrabalhos: number
+  alunosProvas: number
+}
+
+export type AlunoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  alunoTrabalhos?: boolean | AlunoCountOutputTypeCountAlunoTrabalhosArgs
+  alunosProvas?: boolean | AlunoCountOutputTypeCountAlunosProvasArgs
+}
+
+/**
+ * AlunoCountOutputType without action
+ */
+export type AlunoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlunoCountOutputType
+   */
+  select?: Prisma.AlunoCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AlunoCountOutputType without action
+ */
+export type AlunoCountOutputTypeCountAlunoTrabalhosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlunoTrabalhoWhereInput
+}
+
+/**
+ * AlunoCountOutputType without action
+ */
+export type AlunoCountOutputTypeCountAlunosProvasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlunosProvasWhereInput
+}
+
 
 export type AlunoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -497,6 +694,9 @@ export type AlunoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id_turma?: boolean
   usuario?: boolean | Prisma.UsuarioDefaultArgs<ExtArgs>
   turma?: boolean | Prisma.TurmaDefaultArgs<ExtArgs>
+  alunoTrabalhos?: boolean | Prisma.Aluno$alunoTrabalhosArgs<ExtArgs>
+  alunosProvas?: boolean | Prisma.Aluno$alunosProvasArgs<ExtArgs>
+  _count?: boolean | Prisma.AlunoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aluno"]>
 
 export type AlunoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -528,6 +728,9 @@ export type AlunoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 export type AlunoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   usuario?: boolean | Prisma.UsuarioDefaultArgs<ExtArgs>
   turma?: boolean | Prisma.TurmaDefaultArgs<ExtArgs>
+  alunoTrabalhos?: boolean | Prisma.Aluno$alunoTrabalhosArgs<ExtArgs>
+  alunosProvas?: boolean | Prisma.Aluno$alunosProvasArgs<ExtArgs>
+  _count?: boolean | Prisma.AlunoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AlunoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   usuario?: boolean | Prisma.UsuarioDefaultArgs<ExtArgs>
@@ -543,6 +746,8 @@ export type $AlunoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   objects: {
     usuario: Prisma.$UsuarioPayload<ExtArgs>
     turma: Prisma.$TurmaPayload<ExtArgs>
+    alunoTrabalhos: Prisma.$AlunoTrabalhoPayload<ExtArgs>[]
+    alunosProvas: Prisma.$AlunosProvasPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -945,6 +1150,8 @@ export interface Prisma__AlunoClient<T, Null = never, ExtArgs extends runtime.Ty
   readonly [Symbol.toStringTag]: "PrismaPromise"
   usuario<T extends Prisma.UsuarioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UsuarioDefaultArgs<ExtArgs>>): Prisma.Prisma__UsuarioClient<runtime.Types.Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   turma<T extends Prisma.TurmaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TurmaDefaultArgs<ExtArgs>>): Prisma.Prisma__TurmaClient<runtime.Types.Result.GetResult<Prisma.$TurmaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  alunoTrabalhos<T extends Prisma.Aluno$alunoTrabalhosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Aluno$alunoTrabalhosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlunoTrabalhoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  alunosProvas<T extends Prisma.Aluno$alunosProvasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Aluno$alunosProvasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlunosProvasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1371,6 +1578,54 @@ export type AlunoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Alunos to delete.
    */
   limit?: number
+}
+
+/**
+ * Aluno.alunoTrabalhos
+ */
+export type Aluno$alunoTrabalhosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlunoTrabalho
+   */
+  select?: Prisma.AlunoTrabalhoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlunoTrabalho
+   */
+  omit?: Prisma.AlunoTrabalhoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlunoTrabalhoInclude<ExtArgs> | null
+  where?: Prisma.AlunoTrabalhoWhereInput
+  orderBy?: Prisma.AlunoTrabalhoOrderByWithRelationInput | Prisma.AlunoTrabalhoOrderByWithRelationInput[]
+  cursor?: Prisma.AlunoTrabalhoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlunoTrabalhoScalarFieldEnum | Prisma.AlunoTrabalhoScalarFieldEnum[]
+}
+
+/**
+ * Aluno.alunosProvas
+ */
+export type Aluno$alunosProvasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlunosProvas
+   */
+  select?: Prisma.AlunosProvasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlunosProvas
+   */
+  omit?: Prisma.AlunosProvasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlunosProvasInclude<ExtArgs> | null
+  where?: Prisma.AlunosProvasWhereInput
+  orderBy?: Prisma.AlunosProvasOrderByWithRelationInput | Prisma.AlunosProvasOrderByWithRelationInput[]
+  cursor?: Prisma.AlunosProvasWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlunosProvasScalarFieldEnum | Prisma.AlunosProvasScalarFieldEnum[]
 }
 
 /**

@@ -27,20 +27,16 @@ export type AggregateTrabalho = {
 }
 
 export type TrabalhoAvgAggregateOutputType = {
-  nota: number | null
   valor: number | null
 }
 
 export type TrabalhoSumAggregateOutputType = {
-  nota: number | null
   valor: number | null
 }
 
 export type TrabalhoMinAggregateOutputType = {
   id: string | null
   nome: string | null
-  url: string | null
-  nota: number | null
   tipo: string | null
   valor: number | null
   data_inicio: Date | null
@@ -51,8 +47,6 @@ export type TrabalhoMinAggregateOutputType = {
 export type TrabalhoMaxAggregateOutputType = {
   id: string | null
   nome: string | null
-  url: string | null
-  nota: number | null
   tipo: string | null
   valor: number | null
   data_inicio: Date | null
@@ -63,8 +57,6 @@ export type TrabalhoMaxAggregateOutputType = {
 export type TrabalhoCountAggregateOutputType = {
   id: number
   nome: number
-  url: number
-  nota: number
   tipo: number
   valor: number
   data_inicio: number
@@ -75,20 +67,16 @@ export type TrabalhoCountAggregateOutputType = {
 
 
 export type TrabalhoAvgAggregateInputType = {
-  nota?: true
   valor?: true
 }
 
 export type TrabalhoSumAggregateInputType = {
-  nota?: true
   valor?: true
 }
 
 export type TrabalhoMinAggregateInputType = {
   id?: true
   nome?: true
-  url?: true
-  nota?: true
   tipo?: true
   valor?: true
   data_inicio?: true
@@ -99,8 +87,6 @@ export type TrabalhoMinAggregateInputType = {
 export type TrabalhoMaxAggregateInputType = {
   id?: true
   nome?: true
-  url?: true
-  nota?: true
   tipo?: true
   valor?: true
   data_inicio?: true
@@ -111,8 +97,6 @@ export type TrabalhoMaxAggregateInputType = {
 export type TrabalhoCountAggregateInputType = {
   id?: true
   nome?: true
-  url?: true
-  nota?: true
   tipo?: true
   valor?: true
   data_inicio?: true
@@ -210,8 +194,6 @@ export type TrabalhoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type TrabalhoGroupByOutputType = {
   id: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date
@@ -245,27 +227,25 @@ export type TrabalhoWhereInput = {
   NOT?: Prisma.TrabalhoWhereInput | Prisma.TrabalhoWhereInput[]
   id?: Prisma.StringFilter<"Trabalho"> | string
   nome?: Prisma.StringFilter<"Trabalho"> | string
-  url?: Prisma.StringFilter<"Trabalho"> | string
-  nota?: Prisma.FloatFilter<"Trabalho"> | number
   tipo?: Prisma.StringFilter<"Trabalho"> | string
   valor?: Prisma.FloatFilter<"Trabalho"> | number
   data_inicio?: Prisma.DateTimeFilter<"Trabalho"> | Date | string
   data_fim?: Prisma.DateTimeFilter<"Trabalho"> | Date | string
   id_etapa?: Prisma.StringFilter<"Trabalho"> | string
   etapa?: Prisma.XOR<Prisma.EtapaScalarRelationFilter, Prisma.EtapaWhereInput>
+  alunoTrabalhos?: Prisma.AlunoTrabalhoListRelationFilter
 }
 
 export type TrabalhoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   data_inicio?: Prisma.SortOrder
   data_fim?: Prisma.SortOrder
   id_etapa?: Prisma.SortOrder
   etapa?: Prisma.EtapaOrderByWithRelationInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoOrderByRelationAggregateInput
 }
 
 export type TrabalhoWhereUniqueInput = Prisma.AtLeast<{
@@ -274,21 +254,18 @@ export type TrabalhoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.TrabalhoWhereInput[]
   NOT?: Prisma.TrabalhoWhereInput | Prisma.TrabalhoWhereInput[]
   nome?: Prisma.StringFilter<"Trabalho"> | string
-  url?: Prisma.StringFilter<"Trabalho"> | string
-  nota?: Prisma.FloatFilter<"Trabalho"> | number
   tipo?: Prisma.StringFilter<"Trabalho"> | string
   valor?: Prisma.FloatFilter<"Trabalho"> | number
   data_inicio?: Prisma.DateTimeFilter<"Trabalho"> | Date | string
   data_fim?: Prisma.DateTimeFilter<"Trabalho"> | Date | string
   id_etapa?: Prisma.StringFilter<"Trabalho"> | string
   etapa?: Prisma.XOR<Prisma.EtapaScalarRelationFilter, Prisma.EtapaWhereInput>
+  alunoTrabalhos?: Prisma.AlunoTrabalhoListRelationFilter
 }, "id">
 
 export type TrabalhoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   data_inicio?: Prisma.SortOrder
@@ -307,8 +284,6 @@ export type TrabalhoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.TrabalhoScalarWhereWithAggregatesInput | Prisma.TrabalhoScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Trabalho"> | string
   nome?: Prisma.StringWithAggregatesFilter<"Trabalho"> | string
-  url?: Prisma.StringWithAggregatesFilter<"Trabalho"> | string
-  nota?: Prisma.FloatWithAggregatesFilter<"Trabalho"> | number
   tipo?: Prisma.StringWithAggregatesFilter<"Trabalho"> | string
   valor?: Prisma.FloatWithAggregatesFilter<"Trabalho"> | number
   data_inicio?: Prisma.DateTimeWithAggregatesFilter<"Trabalho"> | Date | string
@@ -319,56 +294,50 @@ export type TrabalhoScalarWhereWithAggregatesInput = {
 export type TrabalhoCreateInput = {
   id?: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date | string
   data_fim: Date | string
   etapa: Prisma.EtapaCreateNestedOneWithoutTrabalhosInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoCreateNestedManyWithoutTrabalhoInput
 }
 
 export type TrabalhoUncheckedCreateInput = {
   id?: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date | string
   data_fim: Date | string
   id_etapa: string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedCreateNestedManyWithoutTrabalhoInput
 }
 
 export type TrabalhoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   data_fim?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   etapa?: Prisma.EtapaUpdateOneRequiredWithoutTrabalhosNestedInput
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUpdateManyWithoutTrabalhoNestedInput
 }
 
 export type TrabalhoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   data_fim?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id_etapa?: Prisma.StringFieldUpdateOperationsInput | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedUpdateManyWithoutTrabalhoNestedInput
 }
 
 export type TrabalhoCreateManyInput = {
   id?: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date | string
@@ -379,8 +348,6 @@ export type TrabalhoCreateManyInput = {
 export type TrabalhoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -390,8 +357,6 @@ export type TrabalhoUpdateManyMutationInput = {
 export type TrabalhoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -412,8 +377,6 @@ export type TrabalhoOrderByRelationAggregateInput = {
 export type TrabalhoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   data_inicio?: Prisma.SortOrder
@@ -422,15 +385,12 @@ export type TrabalhoCountOrderByAggregateInput = {
 }
 
 export type TrabalhoAvgOrderByAggregateInput = {
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
 }
 
 export type TrabalhoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   data_inicio?: Prisma.SortOrder
@@ -441,8 +401,6 @@ export type TrabalhoMaxOrderByAggregateInput = {
 export type TrabalhoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nome?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  nota?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
   valor?: Prisma.SortOrder
   data_inicio?: Prisma.SortOrder
@@ -451,8 +409,12 @@ export type TrabalhoMinOrderByAggregateInput = {
 }
 
 export type TrabalhoSumOrderByAggregateInput = {
-  nota?: Prisma.SortOrder
   valor?: Prisma.SortOrder
+}
+
+export type TrabalhoScalarRelationFilter = {
+  is?: Prisma.TrabalhoWhereInput
+  isNot?: Prisma.TrabalhoWhereInput
 }
 
 export type TrabalhoCreateNestedManyWithoutEtapaInput = {
@@ -497,26 +459,38 @@ export type TrabalhoUncheckedUpdateManyWithoutEtapaNestedInput = {
   deleteMany?: Prisma.TrabalhoScalarWhereInput | Prisma.TrabalhoScalarWhereInput[]
 }
 
+export type TrabalhoCreateNestedOneWithoutAlunoTrabalhosInput = {
+  create?: Prisma.XOR<Prisma.TrabalhoCreateWithoutAlunoTrabalhosInput, Prisma.TrabalhoUncheckedCreateWithoutAlunoTrabalhosInput>
+  connectOrCreate?: Prisma.TrabalhoCreateOrConnectWithoutAlunoTrabalhosInput
+  connect?: Prisma.TrabalhoWhereUniqueInput
+}
+
+export type TrabalhoUpdateOneRequiredWithoutAlunoTrabalhosNestedInput = {
+  create?: Prisma.XOR<Prisma.TrabalhoCreateWithoutAlunoTrabalhosInput, Prisma.TrabalhoUncheckedCreateWithoutAlunoTrabalhosInput>
+  connectOrCreate?: Prisma.TrabalhoCreateOrConnectWithoutAlunoTrabalhosInput
+  upsert?: Prisma.TrabalhoUpsertWithoutAlunoTrabalhosInput
+  connect?: Prisma.TrabalhoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrabalhoUpdateToOneWithWhereWithoutAlunoTrabalhosInput, Prisma.TrabalhoUpdateWithoutAlunoTrabalhosInput>, Prisma.TrabalhoUncheckedUpdateWithoutAlunoTrabalhosInput>
+}
+
 export type TrabalhoCreateWithoutEtapaInput = {
   id?: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date | string
   data_fim: Date | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoCreateNestedManyWithoutTrabalhoInput
 }
 
 export type TrabalhoUncheckedCreateWithoutEtapaInput = {
   id?: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date | string
   data_fim: Date | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedCreateNestedManyWithoutTrabalhoInput
 }
 
 export type TrabalhoCreateOrConnectWithoutEtapaInput = {
@@ -551,8 +525,6 @@ export type TrabalhoScalarWhereInput = {
   NOT?: Prisma.TrabalhoScalarWhereInput | Prisma.TrabalhoScalarWhereInput[]
   id?: Prisma.StringFilter<"Trabalho"> | string
   nome?: Prisma.StringFilter<"Trabalho"> | string
-  url?: Prisma.StringFilter<"Trabalho"> | string
-  nota?: Prisma.FloatFilter<"Trabalho"> | number
   tipo?: Prisma.StringFilter<"Trabalho"> | string
   valor?: Prisma.FloatFilter<"Trabalho"> | number
   data_inicio?: Prisma.DateTimeFilter<"Trabalho"> | Date | string
@@ -560,11 +532,65 @@ export type TrabalhoScalarWhereInput = {
   id_etapa?: Prisma.StringFilter<"Trabalho"> | string
 }
 
+export type TrabalhoCreateWithoutAlunoTrabalhosInput = {
+  id?: string
+  nome: string
+  tipo: string
+  valor: number
+  data_inicio: Date | string
+  data_fim: Date | string
+  etapa: Prisma.EtapaCreateNestedOneWithoutTrabalhosInput
+}
+
+export type TrabalhoUncheckedCreateWithoutAlunoTrabalhosInput = {
+  id?: string
+  nome: string
+  tipo: string
+  valor: number
+  data_inicio: Date | string
+  data_fim: Date | string
+  id_etapa: string
+}
+
+export type TrabalhoCreateOrConnectWithoutAlunoTrabalhosInput = {
+  where: Prisma.TrabalhoWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrabalhoCreateWithoutAlunoTrabalhosInput, Prisma.TrabalhoUncheckedCreateWithoutAlunoTrabalhosInput>
+}
+
+export type TrabalhoUpsertWithoutAlunoTrabalhosInput = {
+  update: Prisma.XOR<Prisma.TrabalhoUpdateWithoutAlunoTrabalhosInput, Prisma.TrabalhoUncheckedUpdateWithoutAlunoTrabalhosInput>
+  create: Prisma.XOR<Prisma.TrabalhoCreateWithoutAlunoTrabalhosInput, Prisma.TrabalhoUncheckedCreateWithoutAlunoTrabalhosInput>
+  where?: Prisma.TrabalhoWhereInput
+}
+
+export type TrabalhoUpdateToOneWithWhereWithoutAlunoTrabalhosInput = {
+  where?: Prisma.TrabalhoWhereInput
+  data: Prisma.XOR<Prisma.TrabalhoUpdateWithoutAlunoTrabalhosInput, Prisma.TrabalhoUncheckedUpdateWithoutAlunoTrabalhosInput>
+}
+
+export type TrabalhoUpdateWithoutAlunoTrabalhosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  valor?: Prisma.FloatFieldUpdateOperationsInput | number
+  data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  data_fim?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  etapa?: Prisma.EtapaUpdateOneRequiredWithoutTrabalhosNestedInput
+}
+
+export type TrabalhoUncheckedUpdateWithoutAlunoTrabalhosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  valor?: Prisma.FloatFieldUpdateOperationsInput | number
+  data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  data_fim?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  id_etapa?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type TrabalhoCreateManyEtapaInput = {
   id?: string
   nome: string
-  url: string
-  nota: number
   tipo: string
   valor: number
   data_inicio: Date | string
@@ -574,30 +600,26 @@ export type TrabalhoCreateManyEtapaInput = {
 export type TrabalhoUpdateWithoutEtapaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   data_fim?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUpdateManyWithoutTrabalhoNestedInput
 }
 
 export type TrabalhoUncheckedUpdateWithoutEtapaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   data_fim?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  alunoTrabalhos?: Prisma.AlunoTrabalhoUncheckedUpdateManyWithoutTrabalhoNestedInput
 }
 
 export type TrabalhoUncheckedUpdateManyWithoutEtapaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  nota?: Prisma.FloatFieldUpdateOperationsInput | number
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.FloatFieldUpdateOperationsInput | number
   data_inicio?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -605,25 +627,52 @@ export type TrabalhoUncheckedUpdateManyWithoutEtapaInput = {
 }
 
 
+/**
+ * Count Type TrabalhoCountOutputType
+ */
+
+export type TrabalhoCountOutputType = {
+  alunoTrabalhos: number
+}
+
+export type TrabalhoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  alunoTrabalhos?: boolean | TrabalhoCountOutputTypeCountAlunoTrabalhosArgs
+}
+
+/**
+ * TrabalhoCountOutputType without action
+ */
+export type TrabalhoCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrabalhoCountOutputType
+   */
+  select?: Prisma.TrabalhoCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TrabalhoCountOutputType without action
+ */
+export type TrabalhoCountOutputTypeCountAlunoTrabalhosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AlunoTrabalhoWhereInput
+}
+
 
 export type TrabalhoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nome?: boolean
-  url?: boolean
-  nota?: boolean
   tipo?: boolean
   valor?: boolean
   data_inicio?: boolean
   data_fim?: boolean
   id_etapa?: boolean
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
+  alunoTrabalhos?: boolean | Prisma.Trabalho$alunoTrabalhosArgs<ExtArgs>
+  _count?: boolean | Prisma.TrabalhoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trabalho"]>
 
 export type TrabalhoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nome?: boolean
-  url?: boolean
-  nota?: boolean
   tipo?: boolean
   valor?: boolean
   data_inicio?: boolean
@@ -635,8 +684,6 @@ export type TrabalhoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type TrabalhoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nome?: boolean
-  url?: boolean
-  nota?: boolean
   tipo?: boolean
   valor?: boolean
   data_inicio?: boolean
@@ -648,8 +695,6 @@ export type TrabalhoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type TrabalhoSelectScalar = {
   id?: boolean
   nome?: boolean
-  url?: boolean
-  nota?: boolean
   tipo?: boolean
   valor?: boolean
   data_inicio?: boolean
@@ -657,9 +702,11 @@ export type TrabalhoSelectScalar = {
   id_etapa?: boolean
 }
 
-export type TrabalhoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "url" | "nota" | "tipo" | "valor" | "data_inicio" | "data_fim" | "id_etapa", ExtArgs["result"]["trabalho"]>
+export type TrabalhoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "tipo" | "valor" | "data_inicio" | "data_fim" | "id_etapa", ExtArgs["result"]["trabalho"]>
 export type TrabalhoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
+  alunoTrabalhos?: boolean | Prisma.Trabalho$alunoTrabalhosArgs<ExtArgs>
+  _count?: boolean | Prisma.TrabalhoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TrabalhoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   etapa?: boolean | Prisma.EtapaDefaultArgs<ExtArgs>
@@ -672,12 +719,11 @@ export type $TrabalhoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Trabalho"
   objects: {
     etapa: Prisma.$EtapaPayload<ExtArgs>
+    alunoTrabalhos: Prisma.$AlunoTrabalhoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     nome: string
-    url: string
-    nota: number
     tipo: string
     valor: number
     data_inicio: Date
@@ -1078,6 +1124,7 @@ readonly fields: TrabalhoFieldRefs;
 export interface Prisma__TrabalhoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   etapa<T extends Prisma.EtapaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EtapaDefaultArgs<ExtArgs>>): Prisma.Prisma__EtapaClient<runtime.Types.Result.GetResult<Prisma.$EtapaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  alunoTrabalhos<T extends Prisma.Trabalho$alunoTrabalhosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Trabalho$alunoTrabalhosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlunoTrabalhoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1109,8 +1156,6 @@ export interface Prisma__TrabalhoClient<T, Null = never, ExtArgs extends runtime
 export interface TrabalhoFieldRefs {
   readonly id: Prisma.FieldRef<"Trabalho", 'String'>
   readonly nome: Prisma.FieldRef<"Trabalho", 'String'>
-  readonly url: Prisma.FieldRef<"Trabalho", 'String'>
-  readonly nota: Prisma.FieldRef<"Trabalho", 'Float'>
   readonly tipo: Prisma.FieldRef<"Trabalho", 'String'>
   readonly valor: Prisma.FieldRef<"Trabalho", 'Float'>
   readonly data_inicio: Prisma.FieldRef<"Trabalho", 'DateTime'>
@@ -1509,6 +1554,30 @@ export type TrabalhoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Trabalhos to delete.
    */
   limit?: number
+}
+
+/**
+ * Trabalho.alunoTrabalhos
+ */
+export type Trabalho$alunoTrabalhosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlunoTrabalho
+   */
+  select?: Prisma.AlunoTrabalhoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlunoTrabalho
+   */
+  omit?: Prisma.AlunoTrabalhoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlunoTrabalhoInclude<ExtArgs> | null
+  where?: Prisma.AlunoTrabalhoWhereInput
+  orderBy?: Prisma.AlunoTrabalhoOrderByWithRelationInput | Prisma.AlunoTrabalhoOrderByWithRelationInput[]
+  cursor?: Prisma.AlunoTrabalhoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AlunoTrabalhoScalarFieldEnum | Prisma.AlunoTrabalhoScalarFieldEnum[]
 }
 
 /**

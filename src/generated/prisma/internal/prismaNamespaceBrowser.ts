@@ -61,7 +61,9 @@ export const ModelName = {
   ProfessoresMateria: 'ProfessoresMateria',
   Etapa: 'Etapa',
   Prova: 'Prova',
-  Trabalho: 'Trabalho'
+  Trabalho: 'Trabalho',
+  AlunoTrabalho: 'AlunoTrabalho',
+  AlunosProvas: 'AlunosProvas'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -170,7 +172,6 @@ export type EtapaScalarFieldEnum = (typeof EtapaScalarFieldEnum)[keyof typeof Et
 export const ProvaScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
-  nota: 'nota',
   valor: 'valor',
   id_etapa: 'id_etapa'
 } as const
@@ -181,8 +182,6 @@ export type ProvaScalarFieldEnum = (typeof ProvaScalarFieldEnum)[keyof typeof Pr
 export const TrabalhoScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
-  url: 'url',
-  nota: 'nota',
   tipo: 'tipo',
   valor: 'valor',
   data_inicio: 'data_inicio',
@@ -191,6 +190,28 @@ export const TrabalhoScalarFieldEnum = {
 } as const
 
 export type TrabalhoScalarFieldEnum = (typeof TrabalhoScalarFieldEnum)[keyof typeof TrabalhoScalarFieldEnum]
+
+
+export const AlunoTrabalhoScalarFieldEnum = {
+  alunos_id: 'alunos_id',
+  trabalho_id: 'trabalho_id',
+  public_id: 'public_id',
+  nota: 'nota',
+  data_envio: 'data_envio',
+  url: 'url'
+} as const
+
+export type AlunoTrabalhoScalarFieldEnum = (typeof AlunoTrabalhoScalarFieldEnum)[keyof typeof AlunoTrabalhoScalarFieldEnum]
+
+
+export const AlunosProvasScalarFieldEnum = {
+  alunos_id: 'alunos_id',
+  provas_id: 'provas_id',
+  nota: 'nota',
+  data: 'data'
+} as const
+
+export type AlunosProvasScalarFieldEnum = (typeof AlunosProvasScalarFieldEnum)[keyof typeof AlunosProvasScalarFieldEnum]
 
 
 export const SortOrder = {
