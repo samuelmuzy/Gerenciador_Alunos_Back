@@ -11,9 +11,14 @@ export class SingUpDTO{
 
     @IsNotEmpty()
     senha:string;
+
+    cpf:string;
     
     @IsNotEmpty()
     matricula:string;
+
+    @IsNotEmpty()
+    id_turma: string;
 }
 
 export class SingInDTO{ 

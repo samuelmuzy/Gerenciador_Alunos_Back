@@ -22,27 +22,27 @@ export class AuthService {
 
         data.senha = await hashedPassword;
 
-        await this.prismaService.usuario.create({ 
+        const newUser = await this.prismaService.usuario.create({
             data: {
                 nome:data.nome,
                 email:data.email,
-                senha: hashedPassword,
+                senha: data.senha,
                 cpf:data.cpf,
-                role: Role.TEACHER,
+                role: Role.STUDENT,
                 aluno: {
                   create: {
                     matricula:data.matricula
                   },
                 },
               },
-              include:{
-                aluno:true
-              }
-         });
+              include: {
+                aluno: true,
+              },
+        })
         const payload = {nome:data.nome,email:data.email,roles: [Role.ADMIN] }
 
         const accessToken = await this.jwtService.signAsync(payload)
-        return {token: accessToken};
+        return {token: accessToken,user:newUser};
     }
 
     public async singIn(data: SingInDTO) {

@@ -259,9 +259,9 @@ export type TurmaUncheckedUpdateManyInput = {
   id_periodo?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type TurmaScalarRelationFilter = {
-  is?: Prisma.TurmaWhereInput
-  isNot?: Prisma.TurmaWhereInput
+export type TurmaNullableScalarRelationFilter = {
+  is?: Prisma.TurmaWhereInput | null
+  isNot?: Prisma.TurmaWhereInput | null
 }
 
 export type TurmaListRelationFilter = {
@@ -292,16 +292,23 @@ export type TurmaMinOrderByAggregateInput = {
   id_periodo?: Prisma.SortOrder
 }
 
+export type TurmaScalarRelationFilter = {
+  is?: Prisma.TurmaWhereInput
+  isNot?: Prisma.TurmaWhereInput
+}
+
 export type TurmaCreateNestedOneWithoutAlunosInput = {
   create?: Prisma.XOR<Prisma.TurmaCreateWithoutAlunosInput, Prisma.TurmaUncheckedCreateWithoutAlunosInput>
   connectOrCreate?: Prisma.TurmaCreateOrConnectWithoutAlunosInput
   connect?: Prisma.TurmaWhereUniqueInput
 }
 
-export type TurmaUpdateOneRequiredWithoutAlunosNestedInput = {
+export type TurmaUpdateOneWithoutAlunosNestedInput = {
   create?: Prisma.XOR<Prisma.TurmaCreateWithoutAlunosInput, Prisma.TurmaUncheckedCreateWithoutAlunosInput>
   connectOrCreate?: Prisma.TurmaCreateOrConnectWithoutAlunosInput
   upsert?: Prisma.TurmaUpsertWithoutAlunosInput
+  disconnect?: Prisma.TurmaWhereInput | boolean
+  delete?: Prisma.TurmaWhereInput | boolean
   connect?: Prisma.TurmaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TurmaUpdateToOneWithWhereWithoutAlunosInput, Prisma.TurmaUpdateWithoutAlunosInput>, Prisma.TurmaUncheckedUpdateWithoutAlunosInput>
 }

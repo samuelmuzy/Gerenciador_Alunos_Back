@@ -38,8 +38,8 @@ model Aluno {
   id_usuario String  @unique
   usuario    Usuario @relation(fields: [id_usuario], references: [id])
 
-  id_turma String
-  turma    Turma  @relation(fields: [id_turma], references: [id])
+  id_turma String?
+  turma    Turma?  @relation(fields: [id_turma], references: [id])
 
   alunoTrabalhos AlunoTrabalho[]
   alunosProvas   AlunosProvas[]
