@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PeriodusController } from './periodus.controller';
-import { PeriodusService } from './periodus.service';
+import { ProofService } from './proof.service';
+import { ProofController } from './proof.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from 'src/auth/guards/Roles.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Module({
-  controllers: [PeriodusController],
-  providers:[PeriodusService,
+  providers: [ProofService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
@@ -15,6 +14,7 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
-    },]
+    },],
+  controllers: [ProofController]
 })
-export class PeriodusModule {}
+export class ProofModule {}

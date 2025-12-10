@@ -7,6 +7,8 @@ import { WorkModule } from './work/work.module';
 import { StepModule } from './step/step.module';
 import { PeriodusService } from './periodus/periodus.service';
 import { PeriodusModule } from './periodus/periodus.module';
+import { StudentClassModule } from './student-class/student-class.module';
+import { ProofModule } from './proof/proof.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { PeriodusModule } from './periodus/periodus.module';
     ProfessorModule,
     WorkModule,
     StepModule,
-    PeriodusModule
+    PeriodusModule,
+    StudentClassModule,
+    ProofModule
   ],
   controllers: [],
   providers: [WorkService, PeriodusService],
