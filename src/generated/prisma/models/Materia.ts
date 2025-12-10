@@ -314,6 +314,11 @@ export type MateriaScalarRelationFilter = {
   isNot?: Prisma.MateriaWhereInput
 }
 
+export type MateriaNullableScalarRelationFilter = {
+  is?: Prisma.MateriaWhereInput | null
+  isNot?: Prisma.MateriaWhereInput | null
+}
+
 export type MateriaCreateNestedManyWithoutPeriodoInput = {
   create?: Prisma.XOR<Prisma.MateriaCreateWithoutPeriodoInput, Prisma.MateriaUncheckedCreateWithoutPeriodoInput> | Prisma.MateriaCreateWithoutPeriodoInput[] | Prisma.MateriaUncheckedCreateWithoutPeriodoInput[]
   connectOrCreate?: Prisma.MateriaCreateOrConnectWithoutPeriodoInput | Prisma.MateriaCreateOrConnectWithoutPeriodoInput[]
@@ -376,10 +381,12 @@ export type MateriaCreateNestedOneWithoutEtapasInput = {
   connect?: Prisma.MateriaWhereUniqueInput
 }
 
-export type MateriaUpdateOneRequiredWithoutEtapasNestedInput = {
+export type MateriaUpdateOneWithoutEtapasNestedInput = {
   create?: Prisma.XOR<Prisma.MateriaCreateWithoutEtapasInput, Prisma.MateriaUncheckedCreateWithoutEtapasInput>
   connectOrCreate?: Prisma.MateriaCreateOrConnectWithoutEtapasInput
   upsert?: Prisma.MateriaUpsertWithoutEtapasInput
+  disconnect?: Prisma.MateriaWhereInput | boolean
+  delete?: Prisma.MateriaWhereInput | boolean
   connect?: Prisma.MateriaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.MateriaUpdateToOneWithWhereWithoutEtapasInput, Prisma.MateriaUpdateWithoutEtapasInput>, Prisma.MateriaUncheckedUpdateWithoutEtapasInput>
 }

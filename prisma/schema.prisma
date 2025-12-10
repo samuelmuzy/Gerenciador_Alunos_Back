@@ -72,6 +72,7 @@ model Periodo {
   // Relacionamentos
   turmas   Turma[]
   materias Materia[]
+  etapas   Etapa[]
 
   @@map("periodo")
 }
@@ -139,11 +140,13 @@ model Etapa {
   nota_etapa  Float    @map("nota_etapa")
 
   // Relacionamentos
-  id_materia String
-  materia    Materia @relation(fields: [id_materia], references: [id])
+  id_periodo String
+  periodo    Periodo @relation(fields: [id_periodo], references: [id])
 
   provas    Prova[]
   trabalhos Trabalho[]
+  materia   Materia?   @relation(fields: [materiaId], references: [id])
+  materiaId String?
 
   @@map("etapa")
 }
@@ -189,7 +192,7 @@ model AlunoTrabalho {
   trabalho_id String
   trabalho    Trabalho @relation(fields: [trabalho_id], references: [id])
 
-  public_id String
+  public_id  String
   nota       Float
   data_envio DateTime @map("data_envio")
   url        String

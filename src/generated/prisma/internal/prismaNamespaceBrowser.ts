@@ -163,7 +163,8 @@ export const EtapaScalarFieldEnum = {
   data_inicio: 'data_inicio',
   data_fim: 'data_fim',
   nota_etapa: 'nota_etapa',
-  id_materia: 'id_materia'
+  id_periodo: 'id_periodo',
+  materiaId: 'materiaId'
 } as const
 
 export type EtapaScalarFieldEnum = (typeof EtapaScalarFieldEnum)[keyof typeof EtapaScalarFieldEnum]
