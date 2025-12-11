@@ -9,6 +9,7 @@ import { PeriodusService } from './periodus/periodus.service';
 import { PeriodusModule } from './periodus/periodus.module';
 import { StudentClassModule } from './student-class/student-class.module';
 import { ProofModule } from './proof/proof.module';
+import { DisciplineModule } from './discipline/discipline.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ProofModule } from './proof/proof.module';
     StepModule,
     PeriodusModule,
     StudentClassModule,
-    ProofModule
+    ProofModule,
+    DisciplineModule
   ],
   controllers: [],
   providers: [WorkService, PeriodusService],
