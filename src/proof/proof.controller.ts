@@ -1,7 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/RoleEnum';
-import { PeriodusService } from 'src/periodus/periodus.service';
 import { CreateProofDto } from './dto/ProofDTO';
 import { ProofService } from './proof.service';
 

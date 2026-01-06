@@ -8,6 +8,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { comparePassword, hashPassword } from 'src/common/utils/hash';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from './enums/RoleEnum';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  public async singUp(data: SingUpDTO): Promise<object> {
+  public async singUp(data: SingUpDTO, response: Response): Promise<object> {
     const verifyUserAlreadExist = await this.prismaService.usuario.findUnique({
       where: { email: data.email },
     });
@@ -49,10 +50,21 @@ export class AuthService {
     const payload = { nome: data.nome, email: data.email, roles: [Role.ADMIN] };
 
     const accessToken = await this.jwtService.signAsync(payload);
-    return { token: accessToken, user: newUser };
+
+    const isProd = process.env.NODE_ENV === 'production';
+
+    response.cookie('token', accessToken, {
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      httpOnly: true,
+      maxAge: 15 * 60 * 1000,
+      path: '/',
+    });
+
+    return { message: 'Usuário logado com sucesso', user: newUser };
   }
 
-  public async singIn(data: SingInDTO) {
+  public async singIn(data: SingInDTO, response: Response) {
     const verifyUserExist = await this.prismaService.usuario.findUnique({
       where: { email: data.email },
     });
@@ -77,10 +89,21 @@ export class AuthService {
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
-    return { token: accessToken };
+
+    const isProd = process.env.NODE_ENV === 'production';
+
+    response.cookie('token', accessToken, {
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      httpOnly: true,
+      maxAge: 15 * 60 * 1000,
+      path: '/',
+    });
+
+    return { message: 'Usuário logado com sucesso', user: verifyUserExist };
   }
 
-  public async singInProfessor(data: SingInDTO) {
+  public async singInProfessor(data: SingInDTO, response: Response) {
     const verifyUserExist = await this.prismaService.usuario.findUnique({
       where: { email: data.email },
     });
@@ -109,6 +132,16 @@ export class AuthService {
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
-    return { token: accessToken };
+    const isProd = process.env.NODE_ENV === 'production';
+
+    response.cookie('token', accessToken, {
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      httpOnly: true,
+      maxAge: 15 * 60 * 1000,
+      path: '/',
+    });
+
+    return { message: 'Usuário logado com sucesso', user: verifyUserExist };
   }
 }

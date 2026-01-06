@@ -27,7 +27,9 @@ import { ConfigModule } from '@nestjs/config';
     DisciplineModule,
   ],
   controllers: [],
-  providers: [WorkService, PeriodusService,
+  providers: [
+    WorkService,
+    PeriodusService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
