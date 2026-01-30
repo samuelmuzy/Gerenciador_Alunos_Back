@@ -9,6 +9,7 @@ export class DisciplineService {
   public async createProof(
     data: createDisciplineDto,
   ): Promise<createDisciplineDto> {
+    
     const verifyStepIdExist = await this.prismaService.periodo.findUnique({
       where: { id: data.id_periodo },
     });

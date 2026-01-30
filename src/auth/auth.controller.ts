@@ -1,8 +1,10 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import type { Response } from 'express';
 import { SingInDTO, SingUpDTO } from './dtos/authDTO';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/SkipAuth.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
+import type { Payload } from 'src/types/TokenJwtPayload';
 
 @Controller('auth')
 export class AuthController {
@@ -33,6 +35,11 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.singInProfessor(body, res);
+  }
+
+  @Get('me')
+  getMe(@CurrentUser() user: Payload) {
+    return user;
   }
 
   @Public()

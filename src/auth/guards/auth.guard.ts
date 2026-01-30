@@ -10,6 +10,7 @@ import { IS_PUBLIC_KEY } from '../decorators/SkipAuth.decorator';
 import { jwtConstants } from '../constants/jwtConstants';
 import { Request } from 'express';
 import { Role } from '../enums/RoleEnum';
+import { Payload } from 'src/types/TokenJwtPayload';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,12 +20,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    type Payload = {
-      nome: string;
-      email: string;
-      role: Role;
-    };
-
+    
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
