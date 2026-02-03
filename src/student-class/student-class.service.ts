@@ -7,10 +7,12 @@ export class StudentClassService {
   constructor(private prismaService: PrismaService) {}
 
   public async listStudentClasses() {
-    return this.prismaService.turma.findMany({
+    const classes = await this.prismaService.turma.findMany({
       orderBy: { nome: 'asc' },
       include: { periodo: true },
     });
+
+    return classes;
   }
 
   public async createStudentClass(

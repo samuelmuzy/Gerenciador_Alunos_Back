@@ -65,10 +65,13 @@ model Professor {
 
 // 4. Entidade: periodo
 model Periodo {
-  id        String @id @default(uuid())
-  nome      String
-  descricao String
+  id         String @id @default(uuid())
+  nome       String
+  descricao  String
   nota_corte Float
+
+  id_periodo_regular String?
+  periodoRegular     PeriodoRegular? @relation(fields: [id_periodo_regular], references: [id])
 
   // Relacionamentos
   turmas   Turma[]
@@ -76,6 +79,17 @@ model Periodo {
   etapas   Etapa[]
 
   @@map("periodo")
+}
+
+// 4. Entidade: periodo
+model PeriodoRegular {
+  id String @id @default(uuid())
+
+  data_inicio DateTime  @map("data_Incicio")
+  data_fim    DateTime  @map("data_fim")
+  periodos    Periodo[]
+
+  @@map("PeriodoRegular")
 }
 
 // 5. Entidade: Turmas
@@ -115,7 +129,6 @@ model Materia {
   id_periodo String
   periodo    Periodo @relation(fields: [id_periodo], references: [id])
 
-  
   professores ProfessoresMateria[]
 
   @@map("materia")
@@ -135,10 +148,10 @@ model ProfessoresMateria {
 
 // 9. Entidade: etapa
 model Etapa {
-  id          String   @id @default(uuid())
-  data_inicio DateTime @map("data_Incicio")
-  data_fim    DateTime @map("data_fim")
-  nota_maxima_etapa  Float    @map("nota_maxima_etapa")
+  id                String   @id @default(uuid())
+  data_inicio       DateTime @map("data_Incicio")
+  data_fim          DateTime @map("data_fim")
+  nota_maxima_etapa Float    @map("nota_maxima_etapa")
 
   // Relacionamentos
   id_periodo String
@@ -146,7 +159,6 @@ model Etapa {
 
   provas    Prova[]
   trabalhos Trabalho[]
-
 
   @@map("etapa")
 }

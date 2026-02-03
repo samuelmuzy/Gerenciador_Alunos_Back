@@ -16,9 +16,7 @@ export class PeriodusController {
 
   @Roles(Role.TEACHER)
   @Post('')
-  public async createPeriodus(
-    @Body() body: CreatePeriodus,
-  ): Promise<CreatePeriodus> {
+  public async createPeriodus(@Body() body: CreatePeriodus) {
     return await this.periodusService.createPeriodus(body);
   }
 }
