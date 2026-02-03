@@ -6,10 +6,17 @@ import { CreateStudentClassDto } from './dto/strudent-classDTO';
 export class StudentClassService {
   constructor(private prismaService: PrismaService) {}
 
+  public async listStudentClasses() {
+    return this.prismaService.turma.findMany({
+      orderBy: { nome: 'asc' },
+      include: { periodo: true },
+    });
+  }
+
   public async createStudentClass(
     data: CreateStudentClassDto,
   ): Promise<CreateStudentClassDto> {
-    const newPeriodus = await this.prismaService.turma.create({ data });
-    return newPeriodus;
+    const newTurma = await this.prismaService.turma.create({ data });
+    return newTurma;
   }
 }

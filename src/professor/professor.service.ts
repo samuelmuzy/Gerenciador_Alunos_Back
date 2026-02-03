@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateProfessorDto } from './dto/ProfessorDTO';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hashPassword } from 'src/common/utils/hash';
@@ -6,9 +6,15 @@ import { Role } from 'src/auth/enums/RoleEnum';
 
 @Injectable()
 export class ProfessorService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
   public async createProfessor(data: CreateProfessorDto) {
+    const verifyEmailExist = await this.prismaService.usuario.findUnique({ where: { email: data.email }});
+
+    if(verifyEmailExist){
+      throw new UnauthorizedException('Email já existe');
+    }
+
     const hashedPassword = await hashPassword(data.senha);
 
     const newProfessor = await this.prismaService.usuario.create({
