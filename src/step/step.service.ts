@@ -6,18 +6,21 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class StepService {
   constructor(private prismaService: PrismaService) {}
 
-  public async createStep(data: CreateStepDto): Promise<CreateStepDto> {
-    const verifyPeriodusIdExist = await this.prismaService.periodo.findUnique({
-      where: { id: data.id_periodo },
-    });
+  public async createStep(data: CreateStepDto[]): Promise<CreateStepDto[]> {
+    data.forEach(async (element) =>{
+      const verifyPeriodusIdExist = await this.prismaService.periodo.findUnique({
+        where: { id: element.id_periodo },
+      });
+  
+      if (!verifyPeriodusIdExist) {
+        throw new NotFoundException(
+          `Etapa com ID ${element.id_periodo} não encontrada.`,
+        );
+      }
 
-    if (!verifyPeriodusIdExist) {
-      throw new NotFoundException(
-        `Etapa com ID ${data.id_periodo} não encontrada.`,
-      );
-    }
+    })
 
-    const newStep = await this.prismaService.etapa.create({ data });
+    const newStep = await this.prismaService.etapa.createManyAndReturn( {data });
 
     return newStep;
   }

@@ -20,8 +20,6 @@ export class PeriodusService {
       },
     });
 
-    console.log(newPeriodusRegular)
-
     const newPeriodus = await this.prismaService.periodo.create({
       data: {
         nome: data.nome,
