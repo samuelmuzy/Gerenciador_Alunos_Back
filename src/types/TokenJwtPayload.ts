@@ -5,3 +5,9 @@ export type Payload = {
     email: string;
     role: Role;
 };
+
+export type PayloadLinkClass = {
+    classId:string,
+    type:string,
+    professorId:string
+};

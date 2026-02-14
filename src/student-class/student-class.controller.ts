@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/RoleEnum';
 import { CreateStudentClassDto } from './dto/strudent-classDTO';
@@ -20,5 +20,11 @@ export class StudentClassController {
     @Body() body: CreateStudentClassDto,
   ): Promise<CreateStudentClassDto> {
     return await this.studentClassService.createStudentClass(body);
+  }
+
+  @Roles(Role.TEACHER)
+  @Post('/generate-access-class-link/:id')
+  public async createClassLink(@Param() id:string): Promise<String> {
+    return await this.studentClassService.createClassLink(id);
   }
 }
