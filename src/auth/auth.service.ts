@@ -47,7 +47,7 @@ export class AuthService {
         aluno: true,
       },
     });
-    const payload = { nome: data.nome, email: data.email, roles: [Role.ADMIN] };
+    const payload = { id:newUser.id,nome: data.nome, email: data.email, roles: [Role.ADMIN] };
 
     const accessToken = await this.jwtService.signAsync(payload);
 
@@ -83,6 +83,7 @@ export class AuthService {
     }
 
     const payload = {
+      id: verifyUserExist.id,
       nome: verifyUserExist.nome,
       email: data.email,
       role: verifyUserExist.role,
@@ -126,6 +127,7 @@ export class AuthService {
     }
 
     const payload = {
+      id:verifyUserExist.id,
       nome: verifyUserExist.nome,
       email: data.email,
       role: verifyUserExist.role,

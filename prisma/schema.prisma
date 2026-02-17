@@ -6,7 +6,7 @@
 
 generator client {
   provider     = "prisma-client"
-  output       = "../src/generated/prisma"
+  output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -101,10 +101,29 @@ model Turma {
   id_periodo String
   periodo    Periodo @relation(fields: [id_periodo], references: [id])
 
-  alunos      Aluno[]
-  professores ProfessoresTurmas[]
+  alunos        Aluno[]
+  professores   ProfessoresTurmas[]
+  turmaConvites turmaConvite[]
 
   @@map("turmas")
+}
+
+// 5. Entidade: TurmasConvite
+model turmaConvite {
+  id          String   @id @default(uuid())
+  tokenHash   String   @unique
+  turma_id    String
+  criador_id  String
+  espira      DateTime
+  numero_usos Int      @default(1)
+  currentUses Int      @default(0)
+  ativo       Boolean  @default(true)
+  datacriacao DateTime @default(now())
+
+  turma Turma @relation(fields: [turma_id], references: [id])
+
+  @@index([turma_id])
+  @@index([datacriacao])
 }
 
 // 6. Entidade: professores_Turmas (Tabela de ligação N:M)

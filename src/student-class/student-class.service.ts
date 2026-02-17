@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateStudentClassDto } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto } from './dto/strudent-classDTO';
 import { JwtService } from '@nestjs/jwt';
 import { PayloadLinkClass } from 'src/types/TokenJwtPayload';
+import { randomBytes } from 'node:crypto';
+import { hashPassword } from 'src/common/utils/hash';
 
 @Injectable()
 export class StudentClassService {
-  constructor(private prismaService: PrismaService, private jwtService: JwtService,) { }
+  constructor(private prismaService: PrismaService) { }
 
   public async listStudentClasses() {
     const classes = await this.prismaService.turma.findMany({
@@ -24,11 +26,11 @@ export class StudentClassService {
     return newTurma;
   }
 
-  public async createClassLink(id: string): Promise<String> {
+  public async createClassLink(body:CreateLink): Promise<string> {
 
     const verifyClassExist = await this.prismaService.turma.findUnique({
       where: {
-        id: id,
+        id: body.idClass,
       }
     });
 
@@ -36,15 +38,25 @@ export class StudentClassService {
         throw new NotFoundException('Classe não encontrada');
     }
 
-    const payload: PayloadLinkClass = {
-      classId: id,
-      professorId:'1',
-      type:'invite'
-    }
+    const rawToken = randomBytes(32).toString('hex');
 
-    const accessToken = await this.jwtService.signAsync(payload);
+    const hashToken = await hashPassword(rawToken);
 
-
-    return accessToken;
+    const accessToken = await this.prismaService.turmaConvite.create({
+      data:{
+          criador_id:body.idProfessor,
+          tokenHash:hashToken,
+          espira:new Date(Date.now() + 1000 * 60 * 60 * 24),
+          ativo:true,
+          currentUses:30,
+          turma_id:body.idClass,
+          datacriacao:new Date(),
+          numero_usos:100,
+      }
+    })
+    
+    const accessUrl = `${process.env.FRONT_URL}/token=${accessToken.tokenHash}`;
+    
+    return accessUrl;
   }
 }

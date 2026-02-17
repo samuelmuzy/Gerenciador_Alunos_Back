@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/RoleEnum';
-import { CreateStudentClassDto } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto, ResponseLink } from './dto/strudent-classDTO';
 import { StudentClassService } from './student-class.service';
 
 @Controller('student-class')
 export class StudentClassController {
-  constructor(private studentClassService: StudentClassService) {}
+  constructor(private studentClassService: StudentClassService) { }
 
   @Roles(Role.TEACHER)
   @Get('')
@@ -23,8 +23,14 @@ export class StudentClassController {
   }
 
   @Roles(Role.TEACHER)
-  @Post('/generate-access-class-link/:id')
-  public async createClassLink(@Param() id:string): Promise<String> {
-    return await this.studentClassService.createClassLink(id);
+  @Post('/generate-access-class-link')
+  public async createClassLink(@Body() body: CreateLink): Promise<ResponseLink> {
+
+    const accessUrl = await this.studentClassService.createClassLink(body);
+    
+    const responseLink:ResponseLink = {
+      link: accessUrl
+    }
+    return responseLink;
   }
 }
