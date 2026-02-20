@@ -3,6 +3,8 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/RoleEnum';
 import { CreateLink, CreateStudentClassDto, ResponseLink } from './dto/strudent-classDTO';
 import { StudentClassService } from './student-class.service';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import type { Payload } from 'src/types/TokenJwtPayload';
 
 @Controller('student-class')
 export class StudentClassController {
@@ -15,11 +17,17 @@ export class StudentClassController {
   }
 
   @Roles(Role.TEACHER)
+  @Get('class/:idClass/stages')
+  public async getStepsByClassId(@Param('idClass') idClass:string){
+      const result = await this.studentClassService.getStepsByClassId(idClass);
+      console.log(result)
+      return result;
+  }
+
+  @Roles(Role.TEACHER)
   @Post('')
-  public async createStudentClass(
-    @Body() body: CreateStudentClassDto,
-  ): Promise<CreateStudentClassDto> {
-    return await this.studentClassService.createStudentClass(body);
+  public async createStudentClass(@Body() body: CreateStudentClassDto, @CurrentUser() user: Payload): Promise<CreateStudentClassDto> {
+    return await this.studentClassService.createStudentClass(body,user.id);
   }
 
   @Roles(Role.TEACHER)
