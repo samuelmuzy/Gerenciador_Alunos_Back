@@ -11,16 +11,15 @@ export class StudentClassController {
   constructor(private studentClassService: StudentClassService) { }
 
   @Roles(Role.TEACHER)
-  @Get('')
-  public async listStudentClasses() {
-    return await this.studentClassService.listStudentClasses();
+  @Get(':idClass/students')
+  public async listStudentClasses(@Param('idClass') idClass:string) {
+    return await this.studentClassService.listStudentClasses(idClass);
   }
 
   @Roles(Role.TEACHER)
-  @Get('class/:idClass/stages')
+  @Get(':idClass/stages')
   public async getStepsByClassId(@Param('idClass') idClass:string){
       const result = await this.studentClassService.getStepsByClassId(idClass);
-      console.log(result)
       return result;
   }
 

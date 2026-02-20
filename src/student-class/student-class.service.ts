@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateLink, CreateStudentClassDto, ResponseStepAndClassDto } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ResponseStepAndClassDto } from './dto/strudent-classDTO';
 import { randomBytes } from 'node:crypto';
 import { hashPassword } from 'src/common/utils/hash';
 
@@ -8,10 +8,32 @@ import { hashPassword } from 'src/common/utils/hash';
 export class StudentClassService {
   constructor(private prismaService: PrismaService) { }
 
-  public async listStudentClasses() {
-    const classes = await this.prismaService.turma.findMany({
-      orderBy: { nome: 'asc' },
-      include: { periodo: true },
+  public async listStudentClasses(idClass: string): Promise<ResponseClassAndStudent | null> {
+
+    const turmaExist = await this.prismaService.turma.findUnique({ where: { id: idClass } });
+
+    if (!turmaExist) {
+      throw new NotFoundException(
+        `Turma com ID ${idClass} não encontrada.`,
+      );
+    }
+    
+    const classes = await this.prismaService.turma.findUnique({
+      where: { id: idClass },
+      include: {
+        alunos: {
+          select: {
+            id: true,
+            matricula: true,
+            usuario: {
+              select: {
+                nome: true,
+                email: true
+              }
+            }
+          }
+        }
+      }
     });
 
     return classes;

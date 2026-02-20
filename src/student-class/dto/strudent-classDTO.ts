@@ -19,6 +19,20 @@ export class ResponseLink {
   link: string;
 }
 
+export class ResponseClassAndStudent {
+  id: string;
+  nome: string;
+  id_periodo: string;
+  alunos: {
+    id: string
+    matricula: string
+    usuario: {
+      nome: string;
+      email: string
+    }
+  }[]
+}
+
 export class ResponseStepAndClassDto {
   id_periodo: string;
   id: string;
@@ -38,7 +52,7 @@ export class ResponseStepAndClassDto {
       nota_maxima_etapa: number;
       id_periodo: string;
       provas: {
-        id:string;
+        id: string;
         nome: string;
         valor: number;
         id_etapa: string;
