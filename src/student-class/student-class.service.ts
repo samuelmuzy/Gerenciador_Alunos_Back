@@ -1,14 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ResponseStepAndClassDto } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ResponseStepAndClassDto, ValidateLink } from './dto/strudent-classDTO';
 import { randomBytes } from 'node:crypto';
-import { hashPassword } from 'src/common/utils/hash';
+import { hashPassword, hashTokenInvite } from 'src/common/utils/hash';
 
 @Injectable()
 export class StudentClassService {
   constructor(private prismaService: PrismaService) { }
 
-  public async listStudentClasses(idClass: string): Promise<ResponseClassAndStudent | null> {
+  public async listAllClasses() {
+    const classes = await this.prismaService.turma.findMany({
+      orderBy: { nome: 'asc' },
+      include: { periodo: true },
+    });
+
+    return classes;
+  }
+
+
+  public async listStudentAndClasse(idClass: string): Promise<ResponseClassAndStudent | null> {
 
     const turmaExist = await this.prismaService.turma.findUnique({ where: { id: idClass } });
 
@@ -17,7 +27,7 @@ export class StudentClassService {
         `Turma com ID ${idClass} não encontrada.`,
       );
     }
-    
+
     const classes = await this.prismaService.turma.findUnique({
       where: { id: idClass },
       include: {
@@ -99,7 +109,7 @@ export class StudentClassService {
 
     const rawToken = randomBytes(32).toString('hex');
 
-    const hashToken = await hashPassword(rawToken);
+    const hashToken = hashTokenInvite(rawToken);
 
     const accessToken = await this.prismaService.turmaConvite.create({
       data: {
@@ -114,8 +124,50 @@ export class StudentClassService {
       }
     })
 
-    const accessUrl = `${process.env.FRONT_URL}/token=${accessToken.tokenHash}`;
+    const accessUrl = `${process.env.FRONT_URL}/invite/${rawToken}`;
 
     return accessUrl;
+  }
+
+  public async validateClassLink(body: ValidateLink,idUser:string) {
+
+    const verifyStudentExist = await this.prismaService.aluno.findUnique({
+      where:{
+         id_usuario:idUser
+      }
+    })
+
+    if(!verifyStudentExist){
+      throw new NotFoundException('Aluno não encontrado');
+    }
+
+    const dateNow = new Date(Date.now());
+
+    const hashToken = hashTokenInvite(body.token);
+
+    const validateInvite = await this.prismaService.turmaConvite.findUnique({
+      where:{
+        tokenHash:hashToken
+      }
+    });
+
+    if(!validateInvite){
+      throw new UnauthorizedException("Link invalido");
+    }
+
+    if (validateInvite.espira < dateNow || !validateInvite.ativo) {
+      throw new UnauthorizedException('O convite expirou ou está inativo');
+    }
+
+    const student = await this.prismaService.aluno.update({
+      data:{
+         id_turma:validateInvite.turma_id
+      },
+      where:{
+        id_usuario:idUser
+      }
+    })
+    
+    return student;
   }
 }

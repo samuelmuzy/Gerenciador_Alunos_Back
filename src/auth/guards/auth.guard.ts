@@ -9,7 +9,6 @@ import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from '../decorators/SkipAuth.decorator';
 import { jwtConstants } from '../constants/jwtConstants';
 import { Request } from 'express';
-import { Role } from '../enums/RoleEnum';
 import { Payload } from 'src/types/TokenJwtPayload';
 
 @Injectable()

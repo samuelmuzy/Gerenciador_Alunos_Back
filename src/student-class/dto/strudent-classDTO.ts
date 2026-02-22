@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateStudentClassDto {
   @IsNotEmpty()
@@ -17,6 +17,12 @@ export class CreateLink {
 
 export class ResponseLink {
   link: string;
+}
+
+export class ValidateLink {
+  @IsNotEmpty()
+  @IsString()
+  token:string
 }
 
 export class ResponseClassAndStudent {

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/RoleEnum';
-import { CreateLink, CreateStudentClassDto, ResponseLink } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto, ResponseLink, ValidateLink } from './dto/strudent-classDTO';
 import { StudentClassService } from './student-class.service';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import type { Payload } from 'src/types/TokenJwtPayload';
@@ -11,22 +11,28 @@ export class StudentClassController {
   constructor(private studentClassService: StudentClassService) { }
 
   @Roles(Role.TEACHER)
+  @Get('')
+  public async listClasses() {
+    return await this.studentClassService.listAllClasses();
+  }
+
+  @Roles(Role.TEACHER)
   @Get(':idClass/students')
-  public async listStudentClasses(@Param('idClass') idClass:string) {
-    return await this.studentClassService.listStudentClasses(idClass);
+  public async listStudentAndClasse(@Param('idClass') idClass: string) {
+    return await this.studentClassService.listStudentAndClasse(idClass);
   }
 
   @Roles(Role.TEACHER)
   @Get(':idClass/stages')
-  public async getStepsByClassId(@Param('idClass') idClass:string){
-      const result = await this.studentClassService.getStepsByClassId(idClass);
-      return result;
+  public async getStepsByClassId(@Param('idClass') idClass: string) {
+    const result = await this.studentClassService.getStepsByClassId(idClass);
+    return result;
   }
 
   @Roles(Role.TEACHER)
   @Post('')
   public async createStudentClass(@Body() body: CreateStudentClassDto, @CurrentUser() user: Payload): Promise<CreateStudentClassDto> {
-    return await this.studentClassService.createStudentClass(body,user.id);
+    return await this.studentClassService.createStudentClass(body, user.id);
   }
 
   @Roles(Role.TEACHER)
@@ -34,10 +40,19 @@ export class StudentClassController {
   public async createClassLink(@Body() body: CreateLink): Promise<ResponseLink> {
 
     const accessUrl = await this.studentClassService.createClassLink(body);
-    
-    const responseLink:ResponseLink = {
+
+    const responseLink: ResponseLink = {
       link: accessUrl
     }
     return responseLink;
+  }
+
+  @Roles(Role.STUDENT,Role.TEACHER)
+  @Post('/validate-access-link')
+  public async validateClassLink(@Body() body: ValidateLink,@CurrentUser() user:Payload) {
+    const validateInvite = await this.studentClassService.validateClassLink(body,user.id);
+    console.log(validateInvite)
+
+    return validateInvite;
   }
 }

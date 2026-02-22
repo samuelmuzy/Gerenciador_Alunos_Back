@@ -18,6 +18,7 @@ export class AuthService {
   ) {}
 
   public async singUp(data: SingUpDTO, response: Response): Promise<object> {
+    console.log(data)
     const verifyUserAlreadExist = await this.prismaService.usuario.findUnique({
       where: { email: data.email },
     });
@@ -35,11 +36,11 @@ export class AuthService {
         nome: data.nome,
         email: data.email,
         senha: data.senha,
-        cpf: data.cpf,
+        cpf: data.cpf ?? null,
         role: Role.STUDENT,
         aluno: {
           create: {
-            matricula: data.matricula,
+            matricula: data.email,
           },
         },
       },

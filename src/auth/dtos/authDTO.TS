@@ -1,30 +1,31 @@
-import { IsEmail, IsNotEmpty, IsStrongPassword, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsStrongPassword, MinLength } from "class-validator";
 
-export class SingUpDTO{
+export class SingUpDTO {
     @IsNotEmpty()
     @MinLength(2)
-    nome:string;
+    nome: string;
 
     @IsEmail()
     @IsNotEmpty()
-    email:string;
+    email: string;
 
     @IsNotEmpty()
-    senha:string;
-
-    cpf:string;
+    senha: string;
     
-    @IsNotEmpty()
-    matricula:string;
-
-    @IsNotEmpty()
+    @IsOptional()
+    cpf: string;
+    
+    @IsOptional()
+    matricula: string;
+    
+    @IsOptional()
     id_turma: string;
 }
 
-export class SingInDTO{ 
+export class SingInDTO {
     @IsNotEmpty()
-    email:string;
-    
+    email: string;
+
     @IsNotEmpty()
-    senha:string;
+    senha: string;
 }
