@@ -168,6 +168,7 @@ model ProfessoresMateria {
 // 9. Entidade: etapa
 model Etapa {
   id                String   @id @default(uuid())
+  nome              String   @default("")
   data_inicio       DateTime @map("data_Incicio")
   data_fim          DateTime @map("data_fim")
   nota_maxima_etapa Float    @map("nota_maxima_etapa")
