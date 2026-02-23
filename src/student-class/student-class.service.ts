@@ -83,11 +83,23 @@ export class StudentClassService {
 
   public async createStudentClass(data: CreateStudentClassDto, idProfessor: string): Promise<CreateStudentClassDto> {
 
+    const verifyProfessorExist = await this.prismaService.professor.findUnique({
+      where:{
+         id_usuario:idProfessor
+      }
+    });
+
+    if(!verifyProfessorExist){
+      throw new NotFoundException(
+        `Professor com ID ${idProfessor} não encontrado.`,
+      );
+    }
+
     const newTurma = await this.prismaService.turma.create({ data });
 
     await this.prismaService.professoresTurmas.create({
       data: {
-        professores_id: idProfessor,
+        professores_id: verifyProfessorExist?.id,
         turmas_id: newTurma.id
       }
     })

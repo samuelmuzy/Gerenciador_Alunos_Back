@@ -15,6 +15,7 @@ export const uploadImagemBuffer = (
   buffer: Buffer,
   folder: string,
 ): Promise<{ url: string; publicId: string }> => {
+
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.v2.uploader.upload_stream(
       { folder },

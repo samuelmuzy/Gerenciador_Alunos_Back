@@ -177,10 +177,24 @@ model Etapa {
   id_periodo String
   periodo    Periodo @relation(fields: [id_periodo], references: [id])
 
+  conteudos Conteudo[]
   provas    Prova[]
   trabalhos Trabalho[]
 
   @@map("etapa")
+}
+
+model Conteudo {
+  id    String @id @default(uuid())
+  nome  String
+  descricao String
+  url_documento String
+  public_id String
+  data_liberacao DateTime @map("data_liberacao")
+
+  // Relacionamentos
+  id_etapa String @map("id_etapa")
+  etapa    Etapa  @relation(fields: [id_etapa], references: [id])
 }
 
 // 10. Entidade: provas

@@ -53,6 +53,7 @@ export class ResponseStepAndClassDto {
 
     etapas: {
       id: string;
+      nome:string
       data_inicio: Date;
       data_fim: Date;
       nota_maxima_etapa: number;

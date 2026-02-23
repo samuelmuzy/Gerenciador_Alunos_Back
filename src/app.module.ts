@@ -13,6 +13,7 @@ import { StudentClassModule } from './student-class/student-class.module';
 import { ProofModule } from './proof/proof.module';
 import { DisciplineModule } from './discipline/discipline.module';
 import { ConfigModule } from '@nestjs/config';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     StepModule,
     PeriodusModule,
     StudentClassModule,
+    ContentModule,
     ProofModule,
     DisciplineModule,
   ],
