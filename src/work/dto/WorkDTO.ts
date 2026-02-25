@@ -23,3 +23,19 @@ export class CreateWork {
   @IsNotEmpty()
   id_etapa: string;
 }
+
+import { Expose } from 'class-transformer';
+
+export class TrabalhoResponseDto {
+  @Expose()
+  id: string;
+
+  @Expose()
+  nome: string;
+
+  @Expose()
+  valor: number;
+
+  @Expose()
+  id_etapa: string;
+}

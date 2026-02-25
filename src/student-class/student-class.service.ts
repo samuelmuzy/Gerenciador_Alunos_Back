@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ResponseStepAndClassDto, ValidateLink } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ResponseStepAndClassDto, TurmaResponseDto, ValidateLink } from './dto/strudent-classDTO';
 import { randomBytes } from 'node:crypto';
 import { hashPassword, hashTokenInvite } from 'src/common/utils/hash';
+import { plainToInstance } from 'class-transformer';
+import { EtapaResponseDto } from 'src/step/dto/StepDTO';
 
 @Injectable()
 export class StudentClassService {
@@ -49,47 +51,70 @@ export class StudentClassService {
     return classes;
   }
 
-  public async getStepsByClassId(idClass: string): Promise<ResponseStepAndClassDto | null> {
+  public async getStepsByClassId(idClass: string): Promise<EtapaResponseDto[] | null> {
 
-    const turmaExist = await this.prismaService.turma.findUnique({ where: { id: idClass } });
+    const classExist = await this.prismaService.turma.findUnique({ where: { id: idClass }, select: { id_periodo: true }, });
 
-    if (!turmaExist) {
+    if (!classExist) {
       throw new NotFoundException(
         `Turma com ID ${idClass} não encontrada.`,
       );
     }
 
-    const steps = await this.prismaService.turma.findUnique({
+    const classes = await this.prismaService.etapa.findMany({
       where: {
-        id: idClass
+        id_periodo: classExist.id_periodo,
       },
-      include: {
-        periodo: {
-          include: {
-            etapas: {
-              include: {
-                provas: true,
-                trabalhos: true
-              }
-            }
-          }
-        }
+      select: {
+        id: true,
+        nome: true,
+        data_inicio: true,
+        data_fim: true,
+        nota_maxima_etapa: true,
+
+        provas: {
+          select: {
+            id: true,
+            nome: true,
+            valor: true,
+          },
+        },
+
+        trabalhos: {
+          select: {
+            id: true,
+            nome: true,
+            valor: true,
+          },
+        },
+
+        conteudos: {
+          select: {
+            id: true,
+            nome: true,
+            data_liberacao: true,
+            descricao:true,
+            url_documento:true,
+            public_id:true
+          },
+        },
       }
     });
 
-    return steps;
-
+    return plainToInstance(EtapaResponseDto, classes, {
+      excludeExtraneousValues: true,
+    });
   }
 
   public async createStudentClass(data: CreateStudentClassDto, idProfessor: string): Promise<CreateStudentClassDto> {
 
     const verifyProfessorExist = await this.prismaService.professor.findUnique({
-      where:{
-         id_usuario:idProfessor
+      where: {
+        id_usuario: idProfessor
       }
     });
 
-    if(!verifyProfessorExist){
+    if (!verifyProfessorExist) {
       throw new NotFoundException(
         `Professor com ID ${idProfessor} não encontrado.`,
       );
@@ -141,15 +166,15 @@ export class StudentClassService {
     return accessUrl;
   }
 
-  public async validateClassLink(body: ValidateLink,idUser:string) {
+  public async validateClassLink(body: ValidateLink, idUser: string) {
 
     const verifyStudentExist = await this.prismaService.aluno.findUnique({
-      where:{
-         id_usuario:idUser
+      where: {
+        id_usuario: idUser
       }
     })
 
-    if(!verifyStudentExist){
+    if (!verifyStudentExist) {
       throw new NotFoundException('Aluno não encontrado');
     }
 
@@ -158,12 +183,12 @@ export class StudentClassService {
     const hashToken = hashTokenInvite(body.token);
 
     const validateInvite = await this.prismaService.turmaConvite.findUnique({
-      where:{
-        tokenHash:hashToken
+      where: {
+        tokenHash: hashToken
       }
     });
 
-    if(!validateInvite){
+    if (!validateInvite) {
       throw new UnauthorizedException("Link invalido");
     }
 
@@ -172,14 +197,14 @@ export class StudentClassService {
     }
 
     const student = await this.prismaService.aluno.update({
-      data:{
-         id_turma:validateInvite.turma_id
+      data: {
+        id_turma: validateInvite.turma_id
       },
-      where:{
-        id_usuario:idUser
+      where: {
+        id_usuario: idUser
       }
     })
-    
+
     return student;
   }
 }

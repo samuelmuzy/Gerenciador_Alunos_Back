@@ -23,3 +23,27 @@ export class CreatePeriodus {
   @IsOptional()
   id_periodo_regular?: string;
 }
+
+import { Expose, Type } from 'class-transformer';
+import { EtapaResponseDto } from 'src/step/dto/StepDTO';
+
+export class PeriodoResponseDto {
+  @Expose()
+  id: string;
+
+  @Expose()
+  nome: string;
+
+  @Expose()
+  descricao: string;
+
+  @Expose()
+  nota_corte: number;
+
+  @Expose()
+  id_periodo_regular: string | null;
+
+  @Expose()
+  @Type(() => EtapaResponseDto)
+  etapas: EtapaResponseDto[];
+}

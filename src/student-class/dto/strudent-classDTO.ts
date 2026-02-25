@@ -22,7 +22,7 @@ export class ResponseLink {
 export class ValidateLink {
   @IsNotEmpty()
   @IsString()
-  token:string
+  token: string
 }
 
 export class ResponseClassAndStudent {
@@ -53,23 +53,52 @@ export class ResponseStepAndClassDto {
 
     etapas: {
       id: string;
-      nome:string
+      nome: string;
       data_inicio: Date;
       data_fim: Date;
       nota_maxima_etapa: number;
       id_periodo: string;
+
       provas: {
         id: string;
         nome: string;
         valor: number;
         id_etapa: string;
-      }[]
+      }[];
+
       trabalhos: {
         id: string;
         nome: string;
         valor: number;
         id_etapa: string;
-      }[]
+      }[];
+
+      conteudos: {
+        id: string;
+        nome: string;
+        descricao: string;
+        data_liberacao: Date;
+        id_etapa: string;
+      }[];
+
     }[];
-  };
+  } | null;
+}
+
+import { Expose, Type } from 'class-transformer';
+import { PeriodoResponseDto } from 'src/periodus/dto/PeriodusDTO';
+
+export class TurmaResponseDto {
+  @Expose()
+  id: string;
+
+  @Expose()
+  nome: string;
+
+  @Expose()
+  id_periodo: string;
+
+  @Expose()
+  @Type(() => PeriodoResponseDto)
+  periodo: PeriodoResponseDto;
 }

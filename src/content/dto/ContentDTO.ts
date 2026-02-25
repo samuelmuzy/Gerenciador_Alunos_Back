@@ -1,3 +1,4 @@
+import { Transform } from "class-transformer";
 import { IsDate, IsNotEmpty, MaxLength } from "class-validator"
 
 export class createContent {
@@ -8,11 +9,33 @@ export class createContent {
     @IsNotEmpty()
     @MaxLength(150)
     descricao: string;
+    
 
     @IsNotEmpty()
-    @IsDate()
     data_liberacao: Date;
 
     @IsNotEmpty()
     id_etapa:string
+}
+
+import { Expose } from 'class-transformer';
+
+export class ConteudoResponseDto {
+  @Expose()
+  id: string;
+
+  @Expose()
+  nome: string;
+
+  @Expose()
+  descricao: string;
+
+  @Expose()
+  data_liberacao: Date;
+
+  @Expose()
+  url_documento:string
+  
+  @Expose()
+  id_etapa: string;
 }
