@@ -24,21 +24,67 @@ export class StudentService {
                 }
             },
             select: {
-                turma:{
-                    select:{
-                        id:true,
-                        nome:true,
-                        id_periodo:true,
-                        periodo:true
+                turma: {
+                    select: {
+                        id: true,
+                        nome: true,
+                        id_periodo: true,
+                        periodo: true
                     }
                 }
             }
         });
-    
+
         return plainToInstance(
             ClassResponseDto,
             classes.map(c => c.turma),
             { excludeExtraneousValues: true }
         );
+    }
+
+    public async getStudentClassAndContentsByIdClass(idClass: string) {
+        const classExist = await this.prismaService.turma.findUnique({ where: { id: idClass }, select: { id_periodo: true }, });
+
+        if (!classExist) {
+            throw new NotFoundException(
+                `Turma com ID ${idClass} não encontrada.`,
+            );
+        }
+
+        const now = new Date(Date.now());
+
+        const classes = await this.prismaService.etapa.findMany({
+            where: {
+                id_periodo: classExist.id_periodo,
+            },
+            select: {
+                id: true,
+                nome: true,
+                data_inicio: true,
+                data_fim: true,
+                nota_maxima_etapa: true,
+
+                trabalhos: {
+                    select: {
+                        id: true,
+                        nome: true,
+                        valor: true,
+                    },
+                },
+
+                conteudos: {
+                    where:{data_liberacao > now },
+                    select: {
+                        id: true,
+                        nome: true,
+                        data_liberacao: true,
+                        descricao: true,
+                        url_documento: true,
+                        public_id: true
+                    },
+                },
+            }
+        });
+
     }
 }

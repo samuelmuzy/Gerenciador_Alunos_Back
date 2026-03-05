@@ -12,7 +12,14 @@ export class StudentController {
 
     @Roles(Role.STUDENT)
     @Get('/classes')
-    public async getAllClassesByStudentId(@CurrentUser() user:Payload): Promise<ClassResponseDto[]> {
+    public async getAllClassesByStudentId(@CurrentUser() user: Payload): Promise<ClassResponseDto[]> {
         return await this.studentService.getAllClassesByStudentId(user.id);
     }
+
+    @Roles(Role.STUDENT)
+    @Get('/student-class/:id_class/contents')
+    public async getStudentClassAndContentsByIdClass(@Param() id_class: string, @CurrentUser() user: Payload):Promise<ClassResponseDto> {
+        return await this.studentService.getStudentClassAndContentsByIdClass(id_class);
+    }
+
 }
