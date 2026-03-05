@@ -38,11 +38,11 @@ model Aluno {
   id_usuario String  @unique
   usuario    Usuario @relation(fields: [id_usuario], references: [id])
 
-  id_turma String?
-  turma    Turma?  @relation(fields: [id_turma], references: [id])
-
   alunoTrabalhos AlunoTrabalho[]
   alunosProvas   AlunosProvas[]
+  alunosTurmas   AlunosTurmas[]
+  turma          Turma?          @relation(fields: [turmaId], references: [id])
+  turmaId        String?
 
   @@map("alunos")
 }
@@ -104,6 +104,7 @@ model Turma {
   alunos        Aluno[]
   professores   ProfessoresTurmas[]
   turmaConvites turmaConvite[]
+  alunosTurmas  AlunosTurmas[]
 
   @@map("turmas")
 }
@@ -136,6 +137,18 @@ model ProfessoresTurmas {
 
   @@id([professores_id, turmas_id])
   @@map("professores_Turmas")
+}
+
+// 6. Entidade: aluno_Turmas (Tabela de ligação N:M)
+model AlunosTurmas {
+  alunos_id String
+  aluno     Aluno  @relation(fields: [alunos_id], references: [id])
+
+  turmas_id String
+  turma     Turma  @relation(fields: [turmas_id], references: [id])
+
+  @@id([alunos_id, turmas_id])
+  @@map("aluno_Turmas")
 }
 
 // 7. Entidade: materia
@@ -185,11 +198,11 @@ model Etapa {
 }
 
 model Conteudo {
-  id    String @id @default(uuid())
-  nome  String
-  descricao String
-  url_documento String
-  public_id String
+  id             String   @id @default(uuid())
+  nome           String
+  descricao      String
+  url_documento  String
+  public_id      String
   data_liberacao DateTime @map("data_liberacao")
 
   // Relacionamentos

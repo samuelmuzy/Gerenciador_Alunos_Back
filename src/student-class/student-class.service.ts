@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ResponseStepAndClassDto, TurmaResponseDto, ValidateLink } from './dto/strudent-classDTO';
+import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ValidateLink } from './dto/strudent-classDTO';
 import { randomBytes } from 'node:crypto';
 import { hashPassword, hashTokenInvite } from 'src/common/utils/hash';
 import { plainToInstance } from 'class-transformer';
@@ -93,9 +93,9 @@ export class StudentClassService {
             id: true,
             nome: true,
             data_liberacao: true,
-            descricao:true,
-            url_documento:true,
-            public_id:true
+            descricao: true,
+            url_documento: true,
+            public_id: true
           },
         },
       }
@@ -196,13 +196,25 @@ export class StudentClassService {
       throw new UnauthorizedException('O convite expirou ou está inativo');
     }
 
-    const student = await this.prismaService.aluno.update({
-      data: {
-        id_turma: validateInvite.turma_id
-      },
+    const userAlreadyClass = await this.prismaService.alunosTurmas.findUnique({
       where: {
-        id_usuario: idUser
+        alunos_id_turmas_id: {
+          alunos_id: verifyStudentExist.id,
+          turmas_id: validateInvite.turma_id
+        }
       }
+    });
+    
+    if (userAlreadyClass) {
+      throw new ConflictException("Aluno já está nesta turma");
+    }
+
+    const student = await this.prismaService.alunosTurmas.create({
+      data: {
+        turmas_id: validateInvite.turma_id,
+        alunos_id: verifyStudentExist.id
+      },
+
     })
 
     return student;

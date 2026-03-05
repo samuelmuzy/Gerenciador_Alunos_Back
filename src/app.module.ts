@@ -14,6 +14,8 @@ import { ProofModule } from './proof/proof.module';
 import { DisciplineModule } from './discipline/discipline.module';
 import { ConfigModule } from '@nestjs/config';
 import { ContentModule } from './content/content.module';
+import { StudentModule } from './student/student.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { ContentModule } from './content/content.module';
     ContentModule,
     ProofModule,
     DisciplineModule,
+    StudentModule,
+    UserModule,
   ],
   controllers: [],
   providers: [

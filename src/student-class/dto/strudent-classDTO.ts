@@ -1,4 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
+import { PeriodoResponseDto } from 'src/periodus/dto/PeriodusDTO';
+import { AlunosTurmas } from 'src/student/dto/StudentAndClassesDto';
 
 export class CreateStudentClassDto {
   @IsNotEmpty()
@@ -39,56 +42,8 @@ export class ResponseClassAndStudent {
   }[]
 }
 
-export class ResponseStepAndClassDto {
-  id_periodo: string;
-  id: string;
-  nome: string;
 
-  periodo: {
-    id: string;
-    nome: string;
-    descricao: string;
-    nota_corte: number;
-    id_periodo_regular: string | null;
-
-    etapas: {
-      id: string;
-      nome: string;
-      data_inicio: Date;
-      data_fim: Date;
-      nota_maxima_etapa: number;
-      id_periodo: string;
-
-      provas: {
-        id: string;
-        nome: string;
-        valor: number;
-        id_etapa: string;
-      }[];
-
-      trabalhos: {
-        id: string;
-        nome: string;
-        valor: number;
-        id_etapa: string;
-      }[];
-
-      conteudos: {
-        id: string;
-        nome: string;
-        descricao: string;
-        data_liberacao: Date;
-        id_etapa: string;
-      }[];
-
-    }[];
-  } | null;
-}
-
-import { Expose, Type } from 'class-transformer';
-import { PeriodoResponseDto } from 'src/periodus/dto/PeriodusDTO';
-
-export class TurmaResponseDto {
+export class ClassResponseDto {
   @Expose()
   id: string;
 
@@ -101,4 +56,8 @@ export class TurmaResponseDto {
   @Expose()
   @Type(() => PeriodoResponseDto)
   periodo: PeriodoResponseDto;
+
+  @Expose()
+  @Type(() => AlunosTurmas)
+  alunosTurmas:AlunosTurmas
 }

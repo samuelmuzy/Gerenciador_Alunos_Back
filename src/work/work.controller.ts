@@ -11,7 +11,6 @@ export class WorkController {
 
   @Roles(Role.TEACHER)
   @Post('')
-  @UseInterceptors(FileInterceptor('file'))
   public async createWork(@Body() body: CreateWork): Promise<CreateWork> {
     return await this.workService.createWork(body);
   }

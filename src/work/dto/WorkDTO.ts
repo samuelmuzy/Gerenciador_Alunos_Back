@@ -9,15 +9,12 @@ export class CreateWork {
 
   @IsNotEmpty()
   @IsNumber()
-  @IsNegative()
   valor: number;
 
   @IsNotEmpty()
-  @IsDate()
   data_inicio: Date;
 
   @IsNotEmpty()
-  @IsDate()
   data_fim: Date;
 
   @IsNotEmpty()
