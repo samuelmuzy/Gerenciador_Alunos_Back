@@ -51,7 +51,7 @@ export class StudentClassController {
   @Post('/validate-access-link')
   public async validateClassLink(@Body() body: ValidateLink,@CurrentUser() user:Payload) {
     const validateInvite = await this.studentClassService.validateClassLink(body,user.id);
-    console.log(validateInvite)
+    
 
     return validateInvite;
   }

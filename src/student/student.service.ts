@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { EtapaResponseDto } from 'src/step/dto/StepDTO';
 import { ClassResponseDto } from 'src/student-class/dto/strudent-classDTO';
 
 @Injectable()
@@ -42,49 +43,61 @@ export class StudentService {
         );
     }
 
-    public async getStudentClassAndContentsByIdClass(idClass: string) {
-        const classExist = await this.prismaService.turma.findUnique({ where: { id: idClass }, select: { id_periodo: true }, });
+    public async getStudentClassAndContentsByIdClass(idClass: string, idUser: string):Promise<ClassResponseDto> {
 
-        if (!classExist) {
-            throw new NotFoundException(
-                `Turma com ID ${idClass} não encontrada.`,
-            );
-        }
-
-        const now = new Date(Date.now());
-
-        const classes = await this.prismaService.etapa.findMany({
+        const now = new Date();
+    
+        const classData = await this.prismaService.turma.findFirst({
             where: {
-                id_periodo: classExist.id_periodo,
+                id: idClass,
+                alunosTurmas: {
+                    some: {
+                        aluno: {
+                            id_usuario: idUser
+                        }
+                    }
+                }
             },
+    
             select: {
                 id: true,
                 nome: true,
-                data_inicio: true,
-                data_fim: true,
-                nota_maxima_etapa: true,
-
-                trabalhos: {
+    
+                periodo: {
                     select: {
-                        id: true,
-                        nome: true,
-                        valor: true,
-                    },
-                },
-
-                conteudos: {
-                    where:{data_liberacao > now },
-                    select: {
-                        id: true,
-                        nome: true,
-                        data_liberacao: true,
-                        descricao: true,
-                        url_documento: true,
-                        public_id: true
-                    },
-                },
+                        etapas: {
+                            select: {
+                                id:true,
+                                data_inicio:true,
+                                data_fim:true,
+                                nome:true,
+                                nota_maxima_etapa:true,
+                                id_periodo:true,
+    
+                                trabalhos: true,
+    
+                                conteudos: {
+                                    where: {
+                                        data_liberacao: { lte: now }
+                                    },
+                                    orderBy: {
+                                        data_liberacao: "asc"
+                                    }
+                                }
+    
+                            }
+                        }
+                    }
+                }
             }
         });
-
+    
+        if (!classData) {
+            throw new NotFoundException("Aluno não pertence a esta turma");
+        }
+    
+        return plainToInstance(ClassResponseDto, classData, {
+            excludeExtraneousValues: true
+        });
     }
 }
