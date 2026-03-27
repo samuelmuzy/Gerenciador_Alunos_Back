@@ -6,8 +6,10 @@ import { CreatePeriodus } from './dto/PeriodusDTO';
 export class PeriodusService {
   constructor(private prismaService: PrismaService) { }
 
-  public async listPeriodus() {
+  public async listPeriodus(userId:string) {
     return this.prismaService.periodo.findMany({
+      where:{
+      },
       orderBy: { nome: 'asc' },
     });
   }

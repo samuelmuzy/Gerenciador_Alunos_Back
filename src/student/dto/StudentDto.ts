@@ -1,7 +1,7 @@
 import { Expose, Type } from "class-transformer";
 import { ClassResponseDto } from "src/student-class/dto/strudent-classDTO";
 import { UserResponseDto } from "src/user/dto/User";
-import { TrabalhoResponseDto } from "src/work/dto/WorkDTO";
+import { WorkResponseDto } from "src/work/dto/WorkDTO";
 import { ProvaResponseDto } from "src/proof/dto/ProofDTO";
 import { AlunosTurmas } from "./StudentAndClassesDto";
 
@@ -26,8 +26,8 @@ export class AlunoTrabalhoResponseDto {
     url: string;
 
     @Expose()
-    @Type(() => TrabalhoResponseDto)
-    trabalho: TrabalhoResponseDto;
+    @Type(() => WorkResponseDto)
+    trabalho: WorkResponseDto;
 }
 
 /** DTO da tabela de junção AlunosProvas (alunos_provas) */

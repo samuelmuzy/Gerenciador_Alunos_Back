@@ -1,3 +1,8 @@
+
+import { Expose, Type } from 'class-transformer';
+import { ConteudoResponseDto } from 'src/content/dto/ContentDTO';
+import { WorkResponseDto } from 'src/work/dto/WorkDTO';
+import { ProvaResponseDto } from 'src/proof/dto/ProofDTO';
 import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateStepDto {
@@ -20,11 +25,6 @@ export class CreateStepDto {
   @IsNotEmpty()
   id_periodo: string;
 }
-
-import { Expose, Type } from 'class-transformer';
-import { ConteudoResponseDto } from 'src/content/dto/ContentDTO';
-import { TrabalhoResponseDto } from 'src/work/dto/WorkDTO';
-import { ProvaResponseDto } from 'src/proof/dto/ProofDTO';
 
 export class EtapaResponseDto {
   @Expose()
@@ -50,8 +50,8 @@ export class EtapaResponseDto {
   provas: ProvaResponseDto[];
 
   @Expose()
-  @Type(() => TrabalhoResponseDto)
-  trabalhos: TrabalhoResponseDto[];
+  @Type(() => WorkResponseDto)
+  trabalhos: WorkResponseDto[];
 
   @Expose()
   @Type(() => ConteudoResponseDto)

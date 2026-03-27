@@ -9,7 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class ContentController {
     constructor(private contentService: ContentService) { }
 
-    @Roles(Role.TEACHER)
+    @Roles(Role.TEACHER,Role.STUDENT)
     @Post('')
     @UseInterceptors(FileInterceptor('file'))
     public async createContent(
@@ -17,7 +17,7 @@ export class ContentController {
         @UploadedFile(
             new ParseFilePipe({
                 validators: [
-                    new MaxFileSizeValidator({ maxSize: 1000 * 1024 }),
+                    new MaxFileSizeValidator({ maxSize: 200 * 1024 * 1024 }),
                     new FileTypeValidator({
                         fileType: /(image\/jpeg|image\/png|image\/webp|application\/pdf)/,
                     })

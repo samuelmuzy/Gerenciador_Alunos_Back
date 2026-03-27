@@ -3,6 +3,8 @@ import { PeriodusService } from './periodus.service';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/enums/RoleEnum';
 import { CreatePeriodus } from './dto/PeriodusDTO';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import type { Payload } from 'src/types/TokenJwtPayload';
 
 @Controller('periodus')
 export class PeriodusController {
@@ -10,8 +12,8 @@ export class PeriodusController {
 
   @Roles(Role.TEACHER)
   @Get('')
-  public async listPeriodus() {
-    return await this.periodusService.listPeriodus();
+  public async listPeriodus(@CurrentUser() user:Payload) {
+    return await this.periodusService.listPeriodus(user.id);
   }
 
   @Roles(Role.TEACHER)

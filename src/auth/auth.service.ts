@@ -48,7 +48,8 @@ export class AuthService {
         aluno: true,
       },
     });
-    const payload = { id:newUser.id,nome: data.nome, email: data.email, roles: [Role.ADMIN] };
+    
+    const payload = { id:newUser.id,nome: data.nome, email: data.email, roles: Role.STUDENT };
 
     const accessToken = await this.jwtService.signAsync(payload);
 
@@ -58,7 +59,7 @@ export class AuthService {
       secure: isProd,
       sameSite: isProd ? 'none' : 'lax',
       httpOnly: true,
-      maxAge: 15 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
       path: '/',
     });
 
@@ -98,7 +99,7 @@ export class AuthService {
       secure: isProd,
       sameSite: isProd ? 'none' : 'lax',
       httpOnly: true,
-      maxAge: 15 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
       path: '/',
     });
 
@@ -141,7 +142,7 @@ export class AuthService {
       secure: isProd,
       sameSite: isProd ? 'none' : 'lax',
       httpOnly: true,
-      maxAge: 15 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
       path: '/',
     });
 
