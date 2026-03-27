@@ -59,5 +59,5 @@ export class ClassResponseDto {
 
   @Expose()
   @Type(() => AlunosTurmas)
-  alunosTurmas:AlunosTurmas
+  alunosTurmas: AlunosTurmas[];
 }

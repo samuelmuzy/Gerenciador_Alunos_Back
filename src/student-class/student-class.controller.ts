@@ -12,8 +12,8 @@ export class StudentClassController {
 
   @Roles(Role.TEACHER)
   @Get('')
-  public async listClasses() {
-    return await this.studentClassService.listAllClasses();
+  public async listClasses(@CurrentUser() user:Payload) {
+    return await this.studentClassService.listAllClasses(user.id);
   }
 
   @Roles(Role.TEACHER)
@@ -50,6 +50,7 @@ export class StudentClassController {
   @Roles(Role.STUDENT,Role.TEACHER)
   @Post('/validate-access-link')
   public async validateClassLink(@Body() body: ValidateLink,@CurrentUser() user:Payload) {
+    console.log(user)
     const validateInvite = await this.studentClassService.validateClassLink(body,user.id);
     
 

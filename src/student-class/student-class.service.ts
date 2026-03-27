@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ValidateLink } from './dto/strudent-classDTO';
+import { ClassResponseDto, CreateLink, CreateStudentClassDto, ResponseClassAndStudent, ValidateLink } from './dto/strudent-classDTO';
 import { randomBytes } from 'node:crypto';
 import { hashPassword, hashTokenInvite } from 'src/common/utils/hash';
 import { plainToInstance } from 'class-transformer';
@@ -10,45 +10,60 @@ import { EtapaResponseDto } from 'src/step/dto/StepDTO';
 export class StudentClassService {
   constructor(private prismaService: PrismaService) { }
 
-  public async listAllClasses() {
+  public async listAllClasses(userId: string) {
     const classes = await this.prismaService.turma.findMany({
-      orderBy: { nome: 'asc' },
-      include: { periodo: true },
+      where: {
+        professoresTurmas: {
+          some: {
+            professor: {
+              id_usuario: userId
+            }
+          }
+        }
+      },
+      include: {
+        periodo: true,
+      },
+      orderBy: { nome: 'desc' },
     });
-
+  
     return classes;
   }
 
 
-  public async listStudentAndClasse(idClass: string): Promise<ResponseClassAndStudent | null> {
+  public async listStudentAndClasse(idClass: string): Promise<ClassResponseDto | null> {
+    const turma = await this.prismaService.turma.findUnique({
+      where: { id: idClass },
+      include: {
+        periodo: true,
+        alunosTurmas: {
+          include: {
+            aluno: {
+              select: {
+                id: true,
+                matricula: true,
+                usuario: {
+                  select: {
+                    nome: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
 
-    const turmaExist = await this.prismaService.turma.findUnique({ where: { id: idClass } });
-
-    if (!turmaExist) {
+    if (!turma) {
       throw new NotFoundException(
         `Turma com ID ${idClass} não encontrada.`,
       );
     }
 
-    const classes = await this.prismaService.turma.findUnique({
-      where: { id: idClass },
-      include: {
-        alunos: {
-          select: {
-            id: true,
-            matricula: true,
-            usuario: {
-              select: {
-                nome: true,
-                email: true
-              }
-            }
-          }
-        }
-      }
+    return plainToInstance(ClassResponseDto, turma, {
+      excludeExtraneousValues: true,
     });
-
-    return classes;
   }
 
   public async getStepsByClassId(idClass: string): Promise<EtapaResponseDto[] | null> {
@@ -204,7 +219,7 @@ export class StudentClassService {
         }
       }
     });
-    
+
     if (userAlreadyClass) {
       throw new ConflictException("Aluno já está nesta turma");
     }
